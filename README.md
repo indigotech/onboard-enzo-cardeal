@@ -45,7 +45,7 @@ This project was tested using:
         - Install the latest version of iOS
 - Run `$ sudo gem install cocoapods`
 
-##### Running and debugging
+#### Running and debugging
 - Run `$ npx react-native start`
 - If testing on Android, run `$ npx react-native run-android`
 - If testing on iOS, run `$ npx react-native run-ios`
