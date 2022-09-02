@@ -39,7 +39,7 @@ This project was tested using:
 - Run `$ source $HOME/.bash_profile`
 
 ##### Xcode
-- Install Xcode [Xcode](https://itunes.apple.com/us/app/xcode/id497799835?mt=12)
+- Install [Xcode](https://itunes.apple.com/us/app/xcode/id497799835?mt=12)
 - Open it
     - Go to Xcode > Preferences ... > Components
         - Install the latest version of iOS
