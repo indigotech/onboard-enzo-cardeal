@@ -11,7 +11,7 @@ This project was tested using:
 #### Instaling dependencies
 
 ##### Node and Watchmen
-- Install [![Homebrew](http://brew.sh/)
+- Install [Homebrew](http://brew.sh/)
 - Run `$ brew install node`
 - Run `$ brew install watchman`
 
@@ -20,7 +20,7 @@ This project was tested using:
 - Run `$ brew install --cask zulu11`
 
 ##### Android Studio
-- Install [![Android Studio](https://developer.android.com/studio/index.html)
+- Install [Android Studio](https://developer.android.com/studio/index.html)
 - Open it
     - Go to More Actions > Appearance & Behavior > System Settings > Android SDK
     - Select "SDK Plataforms"
@@ -39,7 +39,7 @@ This project was tested using:
 - Run `$ source $HOME/.bash_profile`
 
 ##### Xcode
-- Install Xcode [![Xcode](https://itunes.apple.com/us/app/xcode/id497799835?mt=12)
+- Install Xcode [Xcode](https://itunes.apple.com/us/app/xcode/id497799835?mt=12)
 - Open it
     - Go to Xcode > Preferences ... > Components
         - Install the latest version of iOS
