@@ -19,6 +19,7 @@
    View,
    TextInput,
    Button,
+   Alert,
  } from 'react-native';
  
  import {
@@ -64,7 +65,9 @@
    const backgroundStyle = {
      backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
    };
- 
+   
+   const emailPattern = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(.\w{2,3})+$/;
+   const passwordPattern = /^(?=.*[0-9])(?=.*[a-zA-Z]).{7,}$/;
    return (
      <SafeAreaView style={backgroundStyle}>
        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
@@ -84,12 +87,45 @@
             />
             <Text>Senha</Text>
             <TextInput
+            secureTextEntry={true}
              style={styles.input}
              onChangeText={onChangePassword}
              value={password}
             />
             <Button
              title='Entrar'
+             onPress={
+                ()=>{
+                    if(!emailPattern.test(email) && !passwordPattern.test(password)){
+                        Alert.alert(
+                            "E-mail e sennha inválidos.",
+                            "Por favor, insira um e-mail no formato '####@####.com', e uma senha com pelo menos 7 caracteres sendo pelo menos uma letra e um número.",
+                            [
+                            { text: "OK", onPress: () => console.log("OK Pressed") }
+                            ]
+                        );
+                    }
+                    
+                    else if(!emailPattern.test(email) && passwordPattern.test(password)){
+                        Alert.alert(
+                            "E-mail inválido.",
+                            "Por favor, innsira um e-mail no formato: ####@####.com.",
+                            [
+                            { text: "OK", onPress: () => console.log("OK Pressed") }
+                            ]
+                        );
+                    }
+                    else if(!passwordPattern.test(password)){
+                        Alert.alert(
+                            "Senha inválida.",
+                            "Por favor, innsira uma sennha com pelo mennos 7 caracteres, contendo pelo menos uma letra e um número",
+                            [
+                            { text: "OK", onPress: () => console.log("OK Pressed") }
+                            ]
+                        );
+                    }
+                }
+             }
             />
          </View>
        </ScrollView>
