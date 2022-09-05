@@ -17,6 +17,8 @@
    Text,
    useColorScheme,
    View,
+   TextInput,
+   Button,
  } from 'react-native';
  
  import {
@@ -51,11 +53,14 @@
        </Text>
      </View>
    );
- };
+ 
+
+};
  
  const App = () => {
    const isDarkMode = useColorScheme() === 'dark';
- 
+   const [email, onChangeEmail] = React.useState("");
+   const [password,onChangePassword] = React.useState("");
    const backgroundStyle = {
      backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
    };
@@ -70,28 +75,23 @@
          style={{
              backgroundColor: isDarkMode ? Colors.black : Colors.white,
            }}>
-           <Section title="Hello World"/>
+           <Section title="Bem-vindo(a) à Taqtile!"/>
+           <Text>E-mail</Text>
+           <TextInput
+            style={styles.input}
+            onChangeText={onChangeEmail}
+            value={email}
+            />
+            <Text>Senha</Text>
+            <TextInput
+             style={styles.input}
+             onChangeText={onChangePassword}
+             value={password}
+            />
+            <Button
+             title='Entrar'
+            />
          </View>
-         {/* <Header />
-         <View
-           style={{
-             backgroundColor: isDarkMode ? Colors.black : Colors.white,
-           }}>
-           <Section title="Step One">
-             Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-             screen and then come back to see your edits.
-           </Section>
-           <Section title="See Your Changes">
-             <ReloadInstructions />
-           </Section>
-           <Section title="Debug">
-             <DebugInstructions />
-           </Section>
-           <Section title="Learn More">
-             Read the docs to discover what to do next:
-           </Section>
-           <LearnMoreLinks />
-         </View> */}
        </ScrollView>
      </SafeAreaView>
    );
@@ -114,6 +114,12 @@
    highlight: {
      fontWeight: '700',
    },
+   input: {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+  },
  });
  
  export default App;
