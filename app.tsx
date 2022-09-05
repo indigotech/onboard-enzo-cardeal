@@ -25,11 +25,10 @@
    Colors
  } from 'react-native/Libraries/NewAppScreen';
  
- const Section: React.FC<
-   PropsWithChildren<{
-     title: string;
-   }>
- > = ({children, title}) => {
+interface SectionProps {
+  title: string;
+}
+ const Section: React.FC<PropsWithChildren<SectionProps>> = ({children, title}) => {
    const isDarkMode = useColorScheme() === 'dark';
    return (
      <View style={styles.sectionContainer}>
