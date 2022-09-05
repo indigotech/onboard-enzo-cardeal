@@ -44,6 +44,7 @@ This project was tested using:
     - Go to Xcode > Preferences ... > Components
         - Install the latest version of iOS
 - Run `$ sudo gem install cocoapods`
+- Run `$ sudo pod install`
 
 #### Running and debugging
 - Run `$ npx react-native start`
