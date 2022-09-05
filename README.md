@@ -9,7 +9,7 @@ This project was tested using:
 ### Steps to run and debug
 
 #### Instaling dependencies
-
+- Run `$ npm install`
 ##### Node and Watchmen
 - Install [Homebrew](http://brew.sh/)
 - Run `$ brew install node`
