@@ -117,7 +117,7 @@ interface SectionProps {
                     else if(!passwordPattern.test(password)){
                         Alert.alert(
                             "Senha inválida.",
-                            "Por favor, innsira uma sennha com pelo mennos 7 caracteres, contendo pelo menos uma letra e um número",
+                            "Por favor, insira uma senha com pelo menos 7 caracteres, contendo pelo menos uma letra e um número",
                             [
                             { text: "OK", onPress: () => console.log("OK Pressed") }
                             ]
