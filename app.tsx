@@ -48,6 +48,7 @@ interface ErrorResponse {
 interface SectionProps {
   title: string;
 }
+
 const Section: React.FC<PropsWithChildren<SectionProps>> = ({ children, title }) => {
   const isDarkMode = useColorScheme() === 'dark';
   return (
