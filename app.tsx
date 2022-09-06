@@ -24,6 +24,14 @@ import {
 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+
+// Initialize Apollo Client
+const client = new ApolloClient({
+  uri: 'localhost:4000/graphql',
+  cache: new InMemoryCache(),
+});
+
 interface SectionProps {
   title: string;
 }
@@ -90,23 +98,25 @@ const App = () => {
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView contentInsetAdjustmentBehavior='automatic' style={backgroundStyle}>
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}
-        >
-          <Section title='Bem-vindo(a) à Taqtile!' />
-          <Text>E-mail</Text>
-          <TextInput style={styles.input} onChangeText={onChangeEmail} value={email} />
-          <Text>Senha</Text>
-          <TextInput secureTextEntry={true} style={styles.input} onChangeText={onChangePassword} value={password} />
-          <Button title='Entrar' onPress={handleButtonPress} />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <ApolloProvider client={client}>
+      <SafeAreaView style={backgroundStyle}>
+        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+        <ScrollView contentInsetAdjustmentBehavior='automatic' style={backgroundStyle}>
+          <View
+            style={{
+              backgroundColor: isDarkMode ? Colors.black : Colors.white,
+            }}
+          >
+            <Section title='Bem-vindo(a) à Taqtile!' />
+            <Text>E-mail</Text>
+            <TextInput style={styles.input} onChangeText={onChangeEmail} value={email} />
+            <Text>Senha</Text>
+            <TextInput secureTextEntry={true} style={styles.input} onChangeText={onChangePassword} value={password} />
+            <Button title='Entrar' onPress={handleButtonPress} />
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    </ApolloProvider>
   );
 };
 
