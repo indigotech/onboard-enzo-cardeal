@@ -56,6 +56,8 @@ const Section: React.FC<PropsWithChildren<SectionProps>> = ({ children, title })
 };
 
 const App = () => {
+  const emailPattern = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(.\w{2,3})+$/;
+  const passwordPattern = /^(?=.*[0-9])(?=.*[a-zA-Z]).{7,}$/;
   const isDarkMode = useColorScheme() === 'dark';
   const [email, onChangeEmail] = React.useState('');
   const [password, onChangePassword] = React.useState('');
@@ -63,8 +65,26 @@ const App = () => {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
-  const emailPattern = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(.\w{2,3})+$/;
-  const passwordPattern = /^(?=.*[0-9])(?=.*[a-zA-Z]).{7,}$/;
+  const handleButtonPress = () => {
+    if (!emailPattern.test(email) && !passwordPattern.test(password)) {
+      Alert.alert(
+        'E-mail e sennha inválidos.',
+        "Por favor, insira um e-mail no formato '####@####.com', e uma senha com pelo menos 7 caracteres sendo pelo menos uma letra e um número.",
+        [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
+      );
+    } else if (!emailPattern.test(email) && passwordPattern.test(password)) {
+      Alert.alert('E-mail inválido.', 'Por favor, innsira um e-mail no formato: ####@####.com.', [
+        { text: 'OK', onPress: () => console.log('OK Pressed') },
+      ]);
+    } else if (!passwordPattern.test(password)) {
+      Alert.alert(
+        'Senha inválida.',
+        'Por favor, insira uma senha com pelo menos 7 caracteres, contendo pelo menos uma letra e um número',
+        [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
+      );
+    }
+  };
+
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
@@ -79,28 +99,7 @@ const App = () => {
           <TextInput style={styles.input} onChangeText={onChangeEmail} value={email} />
           <Text>Senha</Text>
           <TextInput secureTextEntry={true} style={styles.input} onChangeText={onChangePassword} value={password} />
-          <Button
-            title='Entrar'
-            onPress={() => {
-              if (!emailPattern.test(email) && !passwordPattern.test(password)) {
-                Alert.alert(
-                  'E-mail e sennha inválidos.',
-                  "Por favor, insira um e-mail no formato '####@####.com', e uma senha com pelo menos 7 caracteres sendo pelo menos uma letra e um número.",
-                  [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
-                );
-              } else if (!emailPattern.test(email) && passwordPattern.test(password)) {
-                Alert.alert('E-mail inválido.', 'Por favor, innsira um e-mail no formato: ####@####.com.', [
-                  { text: 'OK', onPress: () => console.log('OK Pressed') },
-                ]);
-              } else if (!passwordPattern.test(password)) {
-                Alert.alert(
-                  'Senha inválida.',
-                  'Por favor, insira uma senha com pelo menos 7 caracteres, contendo pelo menos uma letra e um número',
-                  [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
-                );
-              }
-            }}
-          />
+          <Button title='Entrar' onPress={handleButtonPress} />
         </View>
       </ScrollView>
     </SafeAreaView>
