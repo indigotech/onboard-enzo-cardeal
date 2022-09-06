@@ -67,17 +67,20 @@ const App = () => {
   };
 
   const handleButtonPress = () => {
-    if (!emailPattern.test(email) && !passwordPattern.test(password)) {
+    const isEmailValid = emailPattern.test(email);
+    const isPasswordValid = passwordPattern.test(password);
+
+    if (!isEmailValid && !isPasswordValid) {
       Alert.alert(
         'E-mail e sennha inválidos.',
         "Por favor, insira um e-mail no formato '####@####.com', e uma senha com pelo menos 7 caracteres sendo pelo menos uma letra e um número.",
         [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
       );
-    } else if (!emailPattern.test(email) && passwordPattern.test(password)) {
+    } else if (!isEmailValid && isPasswordValid) {
       Alert.alert('E-mail inválido.', 'Por favor, innsira um e-mail no formato: ####@####.com.', [
         { text: 'OK', onPress: () => console.log('OK Pressed') },
       ]);
-    } else if (!passwordPattern.test(password)) {
+    } else if (!isPasswordValid) {
       Alert.alert(
         'Senha inválida.',
         'Por favor, insira uma senha com pelo menos 7 caracteres, contendo pelo menos uma letra e um número',
