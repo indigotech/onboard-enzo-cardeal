@@ -5,10 +5,11 @@
 import { Navigation } from 'react-native-navigation';
 import React from 'react';
 import App from './app.tsx';
+import BlankScreen from './blank-screen.tsx';
 import { InMemoryCache, ApolloClient, ApolloProvider } from '@apollo/client';
 import { getBearer } from './async-token-storage';
 
-const AppWithApollo = () => {
+const AppWithApollo = (props) => {
   // Initialize Apollo Client
   const client = new ApolloClient({
     uri: 'https://tq-template-server-sample.herokuapp.com/graphql',
@@ -20,20 +21,28 @@ const AppWithApollo = () => {
 
   return (
     <ApolloProvider client={client}>
-      <App />
+      <App componentId={props.componentId} rootTag={props.rootTag} />
     </ApolloProvider>
   );
 };
 
-Navigation.registerComponent('com.myApp.WelcomeScreen', () => AppWithApollo);
-Navigation.events().registerAppLaunchedListener(() => {
+Navigation.registerComponent('Home', () => AppWithApollo);
+Navigation.registerComponent('BlankScreen', () => BlankScreen);
+Navigation.events().registerAppLaunchedListener(async () => {
   Navigation.setRoot({
     root: {
       stack: {
         children: [
           {
             component: {
-              name: 'com.myApp.WelcomeScreen',
+              name: 'Home',
+              options: {
+                topBar: {
+                  title: {
+                    text: 'Home',
+                  },
+                },
+              },
             },
           },
         ],
