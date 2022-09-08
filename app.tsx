@@ -80,12 +80,11 @@ const App = () => {
 
   const loginData = {
     variables: {
-      email: email,
-      password: password,
+      data: { email: email, password: password },
     },
   };
 
-  const handleButtonPress = () => {
+  const handleButtonPress = async () => {
     const isEmailValid = emailPattern.test(email);
     const isPasswordValid = passwordPattern.test(password);
 
@@ -107,7 +106,12 @@ const App = () => {
     if (!isEmailValid || !isPasswordValid) {
       Alert.alert(alertTitle, alertDescription, [{ text: 'OK', onPress: () => console.log('OK Pressed') }]);
     } else {
-      login(loginData);
+      try {
+        let response = await login(loginData);
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
