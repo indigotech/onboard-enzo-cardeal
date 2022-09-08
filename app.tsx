@@ -27,6 +27,7 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { gql, useMutation } from '@apollo/client';
 
 import { storeBearer } from './async-token-storage';
+import { Navigation, NavigationComponentProps } from 'react-native-navigation';
 
 interface DataResponse {
   login: {
@@ -73,7 +74,7 @@ const Section: React.FC<PropsWithChildren<SectionProps>> = ({ children, title })
     </View>
   );
 };
-const App = () => {
+const App = (props: NavigationComponentProps) => {
   const emailPattern = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(.\w{2,3})+$/;
   const passwordPattern = /^(?=.*[0-9])(?=.*[a-zA-Z]).{7,}$/;
   const loginMutation = gql`
@@ -130,6 +131,19 @@ const App = () => {
       Alert.alert(alertTitle, alertDescription, [{ text: 'OK', onPress: () => console.log('OK Pressed') }]);
     } else {
       await login(loginData);
+      console.log(props);
+      Navigation.push(props.componentId, {
+        component: {
+          name: 'BlankScreen',
+          options: {
+            topBar: {
+              title: {
+                text: 'BlankScreen',
+              },
+            },
+          },
+        },
+      });
     }
   };
 
