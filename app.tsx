@@ -24,13 +24,7 @@ import {
 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
-
-// Initialize Apollo Client
-const client = new ApolloClient({
-  uri: 'localhost:4000/graphql',
-  cache: new InMemoryCache(),
-});
+import { gql, useMutation } from '@apollo/client';
 
 interface SectionProps {
   title: string;
@@ -62,15 +56,32 @@ const Section: React.FC<PropsWithChildren<SectionProps>> = ({ children, title })
     </View>
   );
 };
-
 const App = () => {
   const emailPattern = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(.\w{2,3})+$/;
   const passwordPattern = /^(?=.*[0-9])(?=.*[a-zA-Z]).{7,}$/;
+  const loginMutation = gql`
+    mutation Login($data: LoginInputType!) {
+      login(data: $data) {
+        token
+        user {
+          id
+        }
+      }
+    }
+  `;
   const isDarkMode = useColorScheme() === 'dark';
   const [email, onChangeEmail] = React.useState('');
   const [password, onChangePassword] = React.useState('');
+  const [login, { data, loading, error }] = useMutation(loginMutation);
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+  };
+
+  const loginData = {
+    variables: {
+      email: email,
+      password: password,
+    },
   };
 
   const handleButtonPress = () => {
@@ -94,29 +105,29 @@ const App = () => {
 
     if (!isEmailValid || !isPasswordValid) {
       Alert.alert(alertTitle, alertDescription, [{ text: 'OK', onPress: () => console.log('OK Pressed') }]);
+    } else {
+      login(loginData);
     }
   };
 
   return (
-    <ApolloProvider client={client}>
-      <SafeAreaView style={backgroundStyle}>
-        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-        <ScrollView contentInsetAdjustmentBehavior='automatic' style={backgroundStyle}>
-          <View
-            style={{
-              backgroundColor: isDarkMode ? Colors.black : Colors.white,
-            }}
-          >
-            <Section title='Bem-vindo(a) à Taqtile!' />
-            <Text>E-mail</Text>
-            <TextInput style={styles.input} onChangeText={onChangeEmail} value={email} />
-            <Text>Senha</Text>
-            <TextInput secureTextEntry={true} style={styles.input} onChangeText={onChangePassword} value={password} />
-            <Button title='Entrar' onPress={handleButtonPress} />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </ApolloProvider>
+    <SafeAreaView style={backgroundStyle}>
+      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+      <ScrollView contentInsetAdjustmentBehavior='automatic' style={backgroundStyle}>
+        <View
+          style={{
+            backgroundColor: isDarkMode ? Colors.black : Colors.white,
+          }}
+        >
+          <Section title='Bem-vindo(a) à Taqtile!' />
+          <Text>E-mail</Text>
+          <TextInput style={styles.input} onChangeText={onChangeEmail} value={email} />
+          <Text>Senha</Text>
+          <TextInput secureTextEntry={true} style={styles.input} onChangeText={onChangePassword} value={password} />
+          <Button title='Entrar' onPress={handleButtonPress} />
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
