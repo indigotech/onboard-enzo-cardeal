@@ -39,6 +39,10 @@ interface DataResponse {
   };
 }
 
+interface ErrorResponse {
+  message: string;
+}
+
 interface SectionProps {
   title: string;
 }
@@ -91,8 +95,11 @@ const App = () => {
     },
     onCompleted: (response: DataResponse) => {
       const bearer = response.login.token;
-      console.log(response);
       storeBearer(bearer);
+    },
+    onError: (response: ErrorResponse) => {
+      const errorMessage = response.message;
+      Alert.alert('Conta não encontrada', errorMessage, [{ text: 'OK', onPress: () => console.log('OK Pressed') }]);
     },
   };
   const [login] = useMutation(loginMutation);
@@ -123,8 +130,6 @@ const App = () => {
       Alert.alert(alertTitle, alertDescription, [{ text: 'OK', onPress: () => console.log('OK Pressed') }]);
     } else {
       await login(loginData);
-      // let response = await login(loginData);
-      // console.log(response);
     }
   };
 
