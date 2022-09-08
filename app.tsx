@@ -131,7 +131,6 @@ const App = (props: NavigationComponentProps) => {
       Alert.alert(alertTitle, alertDescription, [{ text: 'OK', onPress: () => console.log('OK Pressed') }]);
     } else {
       await login(loginData);
-      console.log(props);
       Navigation.push(props.componentId, {
         component: {
           name: 'BlankScreen',
