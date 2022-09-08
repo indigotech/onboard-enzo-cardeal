@@ -26,6 +26,19 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 import { gql, useMutation } from '@apollo/client';
 
+import { storeBearer } from './async-token-storage';
+
+interface DataResponse {
+  login: {
+    __typename: string;
+    token: string;
+    user: {
+      __typename: string;
+      id: string;
+    };
+  };
+}
+
 interface SectionProps {
   title: string;
 }
@@ -72,15 +85,19 @@ const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
   const [email, onChangeEmail] = React.useState('');
   const [password, onChangePassword] = React.useState('');
-  const [login, { data, loading, error }] = useMutation(loginMutation);
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
   const loginData = {
     variables: {
       data: { email: email, password: password },
     },
+    onCompleted: (response: DataResponse) => {
+      const bearer = response.login.token;
+      console.log(response);
+      storeBearer(bearer);
+    },
+  };
+  const [login] = useMutation(loginMutation);
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
   const handleButtonPress = async () => {
@@ -105,12 +122,9 @@ const App = () => {
     if (!isEmailValid || !isPasswordValid) {
       Alert.alert(alertTitle, alertDescription, [{ text: 'OK', onPress: () => console.log('OK Pressed') }]);
     } else {
-      try {
-        let response = await login(loginData);
-        console.log(response);
-      } catch (error) {
-        console.log(error);
-      }
+      await login(loginData);
+      // let response = await login(loginData);
+      // console.log(response);
     }
   };
 
