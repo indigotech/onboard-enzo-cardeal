@@ -2,10 +2,9 @@
  * @format
  */
 
-import { AppRegistry } from 'react-native';
+import { Navigation } from 'react-native-navigation';
 import React from 'react';
 import App from './app.tsx';
-import { name as appName } from './app.json';
 import { InMemoryCache, ApolloClient, ApolloProvider } from '@apollo/client';
 import { getBearer } from './async-token-storage';
 
@@ -26,4 +25,19 @@ const AppWithApollo = () => {
   );
 };
 
-AppRegistry.registerComponent(appName, () => AppWithApollo);
+Navigation.registerComponent('com.myApp.WelcomeScreen', () => AppWithApollo);
+Navigation.events().registerAppLaunchedListener(() => {
+  Navigation.setRoot({
+    root: {
+      stack: {
+        children: [
+          {
+            component: {
+              name: 'com.myApp.WelcomeScreen',
+            },
+          },
+        ],
+      },
+    },
+  });
+});
