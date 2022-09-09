@@ -21,7 +21,6 @@ import {
   TextInput,
   Button,
   Alert,
-  Image,
 } from 'react-native';
 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
@@ -105,8 +104,7 @@ const App = (props: NavigationComponentProps) => {
       Alert.alert('Conta não encontrada', errorMessage, [{ text: 'OK', onPress: () => console.log('OK Pressed') }]);
     },
   };
-  const [login, { data, loading, error }] = useMutation(loginMutation);
-  const spinning = loading && <ActivityIndicator color={'#000000'} />;
+  const [login, { loading }] = useMutation(loginMutation);
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
@@ -164,7 +162,7 @@ const App = (props: NavigationComponentProps) => {
           <Text>Senha</Text>
           <TextInput secureTextEntry={true} style={styles.input} onChangeText={onChangePassword} value={password} />
           <Button title='Entrar' onPress={handleButtonPress} disabled={loading} />
-          {spinning}
+          {loading && <ActivityIndicator color={'#000000'} />}
         </View>
       </ScrollView>
     </SafeAreaView>
