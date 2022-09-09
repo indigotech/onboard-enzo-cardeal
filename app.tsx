@@ -141,11 +141,11 @@ const App = (props: NavigationComponentProps) => {
       await login(loginData);
       Navigation.push(props.componentId, {
         component: {
-          name: 'BlankScreen',
+          name: 'Usuários',
           options: {
             topBar: {
               title: {
-                text: 'BlankScreen',
+                text: 'Usuários',
               },
             },
           },
