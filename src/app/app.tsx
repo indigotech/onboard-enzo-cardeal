@@ -45,10 +45,22 @@ const App = (props: NavigationComponentProps) => {
     onCompleted: (response: DataResponse) => {
       const bearer = response.login.token;
       storeAuthenticationToken(bearer);
+      Navigation.push(props.componentId, {
+        component: {
+          name: 'BlankScreen',
+          options: {
+            topBar: {
+              title: {
+                text: 'BlankScreen',
+              },
+            },
+          },
+        },
+      });
     },
     onError: (response: ErrorResponse) => {
       const errorMessage = response.message;
-      Alert.alert('Conta não encontrada', errorMessage, [{ text: 'OK', onPress: () => console.log('OK Pressed') }]);
+      Alert.alert('Conta não encontrada', errorMessage, [{ text: 'OK' }]);
     },
   };
   const [login, { loading }] = useMutation(loginMutation);
@@ -63,18 +75,6 @@ const App = (props: NavigationComponentProps) => {
 
     if (areFieldsValid) {
       await login(loginData);
-      Navigation.push(props.componentId, {
-        component: {
-          name: 'BlankScreen',
-          options: {
-            topBar: {
-              title: {
-                text: 'BlankScreen',
-              },
-            },
-          },
-        },
-      });
     }
   };
 
