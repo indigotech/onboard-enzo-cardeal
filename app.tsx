@@ -10,6 +10,7 @@
 
 import React, { type PropsWithChildren } from 'react';
 import {
+  ActivityIndicator,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -23,6 +24,26 @@ import {
 } from 'react-native';
 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
+
+import { gql, useMutation } from '@apollo/client';
+
+import { storeBearer } from './async-token-storage';
+import { Navigation, NavigationComponentProps } from 'react-native-navigation';
+
+interface DataResponse {
+  login: {
+    __typename: string;
+    token: string;
+    user: {
+      __typename: string;
+      id: string;
+    };
+  };
+}
+
+interface ErrorResponse {
+  message: string;
+}
 
 interface SectionProps {
   title: string;
@@ -54,18 +75,41 @@ const Section: React.FC<PropsWithChildren<SectionProps>> = ({ children, title })
     </View>
   );
 };
-
-const App = () => {
+const App = (props: NavigationComponentProps) => {
   const emailPattern = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(.\w{2,3})+$/;
   const passwordPattern = /^(?=.*[0-9])(?=.*[a-zA-Z]).{7,}$/;
+  const loginMutation = gql`
+    mutation Login($data: LoginInputType!) {
+      login(data: $data) {
+        token
+        user {
+          id
+        }
+      }
+    }
+  `;
   const isDarkMode = useColorScheme() === 'dark';
   const [email, onChangeEmail] = React.useState('');
   const [password, onChangePassword] = React.useState('');
+  const loginData = {
+    variables: {
+      data: { email: email, password: password },
+    },
+    onCompleted: (response: DataResponse) => {
+      const bearer = response.login.token;
+      storeBearer(bearer);
+    },
+    onError: (response: ErrorResponse) => {
+      const errorMessage = response.message;
+      Alert.alert('Conta não encontrada', errorMessage, [{ text: 'OK', onPress: () => console.log('OK Pressed') }]);
+    },
+  };
+  const [login, { loading }] = useMutation(loginMutation);
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
-  const handleButtonPress = () => {
+  const handleButtonPress = async () => {
     const isEmailValid = emailPattern.test(email);
     const isPasswordValid = passwordPattern.test(password);
 
@@ -86,6 +130,20 @@ const App = () => {
 
     if (!isEmailValid || !isPasswordValid) {
       Alert.alert(alertTitle, alertDescription, [{ text: 'OK', onPress: () => console.log('OK Pressed') }]);
+    } else {
+      await login(loginData);
+      Navigation.push(props.componentId, {
+        component: {
+          name: 'BlankScreen',
+          options: {
+            topBar: {
+              title: {
+                text: 'BlankScreen',
+              },
+            },
+          },
+        },
+      });
     }
   };
 
@@ -103,7 +161,8 @@ const App = () => {
           <TextInput style={styles.input} onChangeText={onChangeEmail} value={email} />
           <Text>Senha</Text>
           <TextInput secureTextEntry={true} style={styles.input} onChangeText={onChangePassword} value={password} />
-          <Button title='Entrar' onPress={handleButtonPress} />
+          <Button title='Entrar' onPress={handleButtonPress} disabled={loading} />
+          {loading && <ActivityIndicator color={'#000000'} />}
         </View>
       </ScrollView>
     </SafeAreaView>
