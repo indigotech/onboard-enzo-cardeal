@@ -26,7 +26,7 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 import { useMutation } from '@apollo/client';
 
-import { storeBearer } from '../utils/async-token-storage';
+import { storeAuthenticationToken } from '../utils/async-token-storage';
 import { DataResponse, ErrorResponse, loginMutation } from '../apollo/apollo-model';
 import { emailPattern, passwordPattern } from '../utils/regex-validation';
 import { styles } from './app-styles';
@@ -44,7 +44,7 @@ const App = (props: NavigationComponentProps) => {
     },
     onCompleted: (response: DataResponse) => {
       const bearer = response.login.token;
-      storeBearer(bearer);
+      storeAuthenticationToken(bearer);
     },
     onError: (response: ErrorResponse) => {
       const errorMessage = response.message;

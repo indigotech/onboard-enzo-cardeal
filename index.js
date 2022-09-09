@@ -7,7 +7,7 @@ import React from 'react';
 import App from './src/app/app.tsx';
 import BlankScreen from './blank-screen.tsx';
 import { InMemoryCache, ApolloClient, ApolloProvider } from '@apollo/client';
-import { getBearer } from './src/utils/async-token-storage';
+import { getAuthenticationToken } from './src/utils/async-token-storage';
 
 const AppWithApollo = (props) => {
   // Initialize Apollo Client
@@ -15,7 +15,7 @@ const AppWithApollo = (props) => {
     uri: 'https://tq-template-server-sample.herokuapp.com/graphql',
     cache: new InMemoryCache(),
     headers: {
-      authorization: getBearer() || '',
+      authorization: getAuthenticationToken() || '',
     },
   });
 
