@@ -15,7 +15,7 @@
     "graphql": "16.6.0",
     "react": "18.0.0",
     "react-native": "0.69.5",
-    "react-native-navigation": "^7.29"
+    "react-native-navigation": "7.29"
   },
   "devDependencies": {
     "@babel/core": "7.12.9",
