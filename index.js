@@ -5,7 +5,7 @@
 import { Navigation } from 'react-native-navigation';
 import React from 'react';
 import App from './app.tsx';
-import BlankScreen from './blank-screen.tsx';
+import Users from './users.tsx';
 import { InMemoryCache, ApolloClient, ApolloProvider } from '@apollo/client';
 import { getBearer } from './async-token-storage';
 
@@ -27,7 +27,7 @@ const AppWithApollo = (props) => {
 };
 
 Navigation.registerComponent('Home', () => AppWithApollo);
-Navigation.registerComponent('BlankScreen', () => BlankScreen);
+Navigation.registerComponent('Usuários', () => Users);
 Navigation.events().registerAppLaunchedListener(async () => {
   Navigation.setRoot({
     root: {

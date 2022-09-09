@@ -2,21 +2,16 @@ import React from 'react';
 import { SafeAreaView, ScrollView, StatusBar, Text, useColorScheme, View } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { userList } from './mock';
+import { styles } from './users-style';
 
-const BlankScreen = () => {
+const Users = () => {
   const isDarkMode = useColorScheme() === 'dark';
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
   const listRender = userList.map((item) => {
     return (
-      <View
-        style={{
-          borderBottomColor: 'black',
-          borderBottomWidth: 0.5,
-        }}
-        key={item.id}
-      >
+      <View style={styles.item} key={item.id}>
         <Text>Usuário: {item.user}</Text>
         <Text>E-mail: {item.email}</Text>
       </View>
@@ -39,4 +34,4 @@ const BlankScreen = () => {
   );
 };
 
-export default BlankScreen;
+export default Users;
