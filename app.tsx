@@ -90,10 +90,6 @@ const App = (props: NavigationComponentProps) => {
     }
   `;
   const isDarkMode = useColorScheme() === 'dark';
-
-  const [isLoading, setIsLoading] = React.useState(false);
-  const spinning = isLoading && <ActivityIndicator color={'#000000'} />;
-
   const [email, onChangeEmail] = React.useState('');
   const [password, onChangePassword] = React.useState('');
   const loginData = {
@@ -109,7 +105,8 @@ const App = (props: NavigationComponentProps) => {
       Alert.alert('Conta não encontrada', errorMessage, [{ text: 'OK', onPress: () => console.log('OK Pressed') }]);
     },
   };
-  const [login] = useMutation(loginMutation);
+  const [login, { data, loading, error }] = useMutation(loginMutation);
+  const spinning = loading && <ActivityIndicator color={'#000000'} />;
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
@@ -136,7 +133,6 @@ const App = (props: NavigationComponentProps) => {
     if (!isEmailValid || !isPasswordValid) {
       Alert.alert(alertTitle, alertDescription, [{ text: 'OK', onPress: () => console.log('OK Pressed') }]);
     } else {
-      setIsLoading(true);
       await login(loginData);
       Navigation.push(props.componentId, {
         component: {
@@ -150,7 +146,6 @@ const App = (props: NavigationComponentProps) => {
           },
         },
       });
-      setIsLoading(false);
     }
   };
 
@@ -168,7 +163,7 @@ const App = (props: NavigationComponentProps) => {
           <TextInput style={styles.input} onChangeText={onChangeEmail} value={email} />
           <Text>Senha</Text>
           <TextInput secureTextEntry={true} style={styles.input} onChangeText={onChangePassword} value={password} />
-          <Button title='Entrar' onPress={handleButtonPress} disabled={isLoading} />
+          <Button title='Entrar' onPress={handleButtonPress} disabled={loading} />
           {spinning}
         </View>
       </ScrollView>
