@@ -4,19 +4,15 @@
 
 import { Navigation } from 'react-native-navigation';
 import React from 'react';
-import App from './app.tsx';
+import App from './src/app/app.tsx';
 import BlankScreen from './blank-screen.tsx';
 import { InMemoryCache, ApolloClient, ApolloProvider } from '@apollo/client';
-import { getBearer } from './async-token-storage';
 
 const AppWithApollo = (props) => {
   // Initialize Apollo Client
   const client = new ApolloClient({
     uri: 'https://tq-template-server-sample.herokuapp.com/graphql',
     cache: new InMemoryCache(),
-    headers: {
-      authorization: getBearer() || '',
-    },
   });
 
   return (

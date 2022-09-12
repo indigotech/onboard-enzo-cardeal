@@ -101,6 +101,7 @@ package-lock.json
 /template/vendor
 
 # iOS / CocoaPods
+/ios/Pods/
 /template/ios/build/
 /template/ios/Pods/
 /template/ios/Podfile.lock
