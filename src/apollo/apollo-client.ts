@@ -1,6 +1,6 @@
 import { createHttpLink, ApolloClient, InMemoryCache } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
-import { getBearer } from './async-token-storage';
+import { getAuthenticationToken } from '../utils/async-token-storage';
 
 const httpLink = createHttpLink({
   uri: 'https://tq-template-server-sample.herokuapp.com/graphql',
@@ -8,7 +8,7 @@ const httpLink = createHttpLink({
 
 const authLink = setContext(async (_, { headers }) => {
 
-  const token = await getBearer();
+  const token = await getAuthenticationToken();
   console.log(`token: ${token}`);
 
   return {
