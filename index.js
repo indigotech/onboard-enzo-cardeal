@@ -3,28 +3,25 @@
  */
 
 import { Navigation } from 'react-native-navigation';
-import React from 'react';
-import App from './app.tsx';
-import Users from './users.tsx';
-import { InMemoryCache, ApolloClient, ApolloProvider } from '@apollo/client';
-import { getBearer } from './async-token-storage';
+import AppWithApollo from './app-with-apollo';
+import Users from './users';
 
-const AppWithApollo = (props) => {
-  // Initialize Apollo Client
-  const client = new ApolloClient({
-    uri: 'https://tq-template-server-sample.herokuapp.com/graphql',
-    cache: new InMemoryCache(),
-    headers: {
-      authorization: getBearer() || '',
-    },
-  });
+// const AppWithApollo = (props) => {
+//   // Initialize Apollo Client
+//   const client = new ApolloClient({
+//     uri: 'https://tq-template-server-sample.herokuapp.com/graphql',
+//     cache: new InMemoryCache(),
+//     headers: {
+//       authorization: getBearer() || '',
+//     },
+//   });
 
-  return (
-    <ApolloProvider client={client}>
-      <App componentId={props.componentId} rootTag={props.rootTag} />
-    </ApolloProvider>
-  );
-};
+//   return (
+//     <ApolloProvider client={client}>
+//       <App componentId={props.componentId} /*rootTag={props.rootTag}*/ />
+//     </ApolloProvider>
+//   );
+// };
 
 Navigation.registerComponent('Home', () => AppWithApollo);
 Navigation.registerComponent('Usuários', () => Users);
