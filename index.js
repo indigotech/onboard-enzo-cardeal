@@ -2,8 +2,11 @@
  * @format
  */
 
+import { ApolloProvider } from '@apollo/client';
+import React from 'react';
 import { Navigation } from 'react-native-navigation';
-import AppWithApollo from './app-with-apollo';
+import { apolloClient } from './apollo-client';
+import App from './app';
 import Users from './users';
 
 // const AppWithApollo = (props) => {
@@ -23,8 +26,17 @@ import Users from './users';
 //   );
 // };
 
-Navigation.registerComponent('Home', () => AppWithApollo);
-Navigation.registerComponent('Usuários', () => Users);
+Navigation.registerComponent(
+  'Home',
+  () => (props) =>
+    (
+      <ApolloProvider client={apolloClient}>
+        <App {...props} />
+      </ApolloProvider>
+    ),
+  () => App,
+);
+Navigation.registerComponent('Users', () => Users);
 Navigation.events().registerAppLaunchedListener(async () => {
   Navigation.setRoot({
     root: {

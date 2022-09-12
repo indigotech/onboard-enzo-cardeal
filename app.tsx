@@ -141,7 +141,7 @@ const App = (props: NavigationComponentProps) => {
       await login(loginData);
       Navigation.push(props.componentId, {
         component: {
-          name: 'Usuários',
+          name: 'Users',
           options: {
             topBar: {
               title: {
