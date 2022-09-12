@@ -47,11 +47,11 @@ const App = (props: NavigationComponentProps) => {
       storeAuthenticationToken(bearer);
       Navigation.push(props.componentId, {
         component: {
-          name: 'BlankScreen',
+          name: 'Users',
           options: {
             topBar: {
               title: {
-                text: 'BlankScreen',
+                text: 'Usuários',
               },
             },
           },

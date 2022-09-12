@@ -2,6 +2,8 @@
  * @format
  */
 
+import { ApolloProvider } from '@apollo/client';
+import React from 'react';
 import { Navigation } from 'react-native-navigation';
 import React from 'react';
 import App from './src/app/app.tsx';
