@@ -1,6 +1,0 @@
-module Pods_OnboardProject_OnboardProjectTests {
-  umbrella header "Pods-OnboardProject-OnboardProjectTests-umbrella.h"
-
-  export *
-  module * { export * }
-}

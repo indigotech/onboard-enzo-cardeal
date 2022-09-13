@@ -28,10 +28,10 @@ import { useMutation } from '@apollo/client';
 
 import { storeAuthenticationToken } from '../utils/async-token-storage';
 import { DataResponse, ErrorResponse, loginMutation } from '../apollo/apollo-model';
-import { emailPattern, passwordPattern } from '../utils/regex-validation';
-import { styles } from './app-styles';
-import { loginFieldsValidation } from '../utils/utils';
-import { Section } from '../utils/dynamic-color-section';
+import { emailPattern, passwordPattern } from '../utils/login-fields-regex-validation';
+import { appStyles } from './app-styles';
+import { loginFieldsValidation } from '../utils/login-fields-validation';
+import { AppSection } from './app-dynamic-color-section';
 import { Navigation, NavigationComponentProps } from 'react-native-navigation';
 
 const App = (props: NavigationComponentProps) => {
@@ -45,10 +45,22 @@ const App = (props: NavigationComponentProps) => {
     onCompleted: (response: DataResponse) => {
       const bearer = response.login.token;
       storeAuthenticationToken(bearer);
+      Navigation.push(props.componentId, {
+        component: {
+          name: 'BlankScreen',
+          options: {
+            topBar: {
+              title: {
+                text: 'BlankScreen',
+              },
+            },
+          },
+        },
+      });
     },
     onError: (response: ErrorResponse) => {
       const errorMessage = response.message;
-      Alert.alert('Conta não encontrada', errorMessage, [{ text: 'OK', onPress: () => console.log('OK Pressed') }]);
+      Alert.alert('ERRO', errorMessage, [{ text: 'OK' }]);
     },
   };
   const [login, { loading }] = useMutation(loginMutation);
@@ -63,18 +75,6 @@ const App = (props: NavigationComponentProps) => {
 
     if (areFieldsValid) {
       await login(loginData);
-      Navigation.push(props.componentId, {
-        component: {
-          name: 'BlankScreen',
-          options: {
-            topBar: {
-              title: {
-                text: 'BlankScreen',
-              },
-            },
-          },
-        },
-      });
     }
   };
 
@@ -87,11 +87,11 @@ const App = (props: NavigationComponentProps) => {
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}
         >
-          <Section title='Bem-vindo(a) à Taqtile!' />
+          <AppSection title='Bem-vindo(a) à Taqtile!' />
           <Text>E-mail</Text>
-          <TextInput style={styles.input} onChangeText={onChangeEmail} value={email} />
+          <TextInput style={appStyles.input} onChangeText={onChangeEmail} value={email} />
           <Text>Senha</Text>
-          <TextInput secureTextEntry={true} style={styles.input} onChangeText={onChangePassword} value={password} />
+          <TextInput secureTextEntry={true} style={appStyles.input} onChangeText={onChangePassword} value={password} />
           <Button title='Entrar' onPress={handleButtonPress} disabled={loading} />
           {loading && <ActivityIndicator color={'#000000'} />}
         </View>

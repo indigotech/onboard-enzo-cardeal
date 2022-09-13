@@ -64,7 +64,6 @@ local.properties
 *.iml
 /android/app/build
 
-/ios/build/
 
 # Node
 node_modules
@@ -101,6 +100,7 @@ package-lock.json
 /template/vendor
 
 # iOS / CocoaPods
+/ios/build/
 /ios/Pods/
 /template/ios/build/
 /template/ios/Pods/

@@ -1,1 +1,0 @@
-../../../../../node_modules/react-native-navigation/lib/ios/TabBarItemIOS15Creator.h
