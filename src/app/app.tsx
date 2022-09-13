@@ -27,7 +27,7 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { useMutation } from '@apollo/client';
 
 import { storeAuthenticationToken } from '../utils/async-token-storage';
-import { DataResponse, ErrorResponse, loginMutation } from '../apollo/apollo-model';
+import { MutationDataResponse, ErrorResponse, loginMutation } from '../apollo/apollo-model';
 import { emailPattern, passwordPattern } from '../utils/login-fields-regex-validation';
 import { appStyles } from './app-styles';
 import { loginFieldsValidation } from '../utils/login-fields-validation';
@@ -42,7 +42,7 @@ const App = (props: NavigationComponentProps) => {
     variables: {
       data: { email: email, password: password },
     },
-    onCompleted: (response: DataResponse) => {
+    onCompleted: (response: MutationDataResponse) => {
       const bearer = response.login.token;
       storeAuthenticationToken(bearer);
       Navigation.push(props.componentId, {
