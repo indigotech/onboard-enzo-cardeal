@@ -32,7 +32,7 @@ query ListUsers($pageInfo: PageInputType) {
     nodes {
       id
       email
-      role
+      name
     }
   }
 }

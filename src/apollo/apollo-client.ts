@@ -1,6 +1,7 @@
 import { createHttpLink, ApolloClient, InMemoryCache } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { getAuthenticationToken } from '../utils/async-token-storage';
+import { offsetLimitPagination } from "@apollo/client/utilities";
 
 const httpLink = createHttpLink({
   uri: 'https://tq-template-server-sample.herokuapp.com/graphql',
@@ -20,5 +21,13 @@ const authLink = setContext(async (_, { headers }) => {
 
 export const apolloClient = new ApolloClient({
   link: authLink.concat(httpLink),
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          feed: offsetLimitPagination()
+        },
+      },
+    },
+  }),
 });
