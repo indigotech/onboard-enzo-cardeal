@@ -8,6 +8,7 @@ import { Navigation } from 'react-native-navigation';
 import App from './src/app/app.tsx';
 import Users from './src/users/users.tsx';
 import { apolloClient } from './src/apollo/apollo-client';
+import AddUser from './src/add-users/add-user';
 
 Navigation.registerComponent(
   'Home',
@@ -19,6 +20,7 @@ Navigation.registerComponent(
     ),
   () => App,
 );
+
 Navigation.registerComponent(
   'Users',
   () => (props) =>
@@ -29,6 +31,18 @@ Navigation.registerComponent(
     ),
   () => Users,
 );
+
+Navigation.registerComponent(
+  'AddUser',
+  () => (props) =>
+    (
+      <ApolloProvider client={apolloClient}>
+        <AddUser {...props} />
+      </ApolloProvider>
+    ),
+  () => AddUser,
+);
+
 Navigation.events().registerAppLaunchedListener(async () => {
   Navigation.setRoot({
     root: {

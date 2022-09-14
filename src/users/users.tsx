@@ -1,12 +1,23 @@
 import React, { useRef, useState } from 'react';
 import { useQuery } from '@apollo/client';
-import { ActivityIndicator, Alert, FlatList, SafeAreaView, StatusBar, Text, useColorScheme, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Alert,
+  Button,
+  FlatList,
+  SafeAreaView,
+  StatusBar,
+  Text,
+  useColorScheme,
+  View,
+} from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { ErrorResponse, listUsersQuerry, QueryDataResponse } from '../apollo/apollo-model';
 import { UserItem } from './users-model';
 import { styles } from './users-style';
+import { Navigation, NavigationComponentProps } from 'react-native-navigation';
 
-const Users = () => {
+const Users = (props: NavigationComponentProps) => {
   const isDarkMode = useColorScheme() === 'dark';
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
@@ -46,6 +57,22 @@ const Users = () => {
       </View>
     );
   };
+
+  const handleButtonPress = () => {
+    Navigation.push(props.componentId, {
+      component: {
+        name: 'AddUser',
+        options: {
+          topBar: {
+            title: {
+              text: 'Novo usuário',
+            },
+          },
+        },
+      },
+    });
+  };
+
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
@@ -55,6 +82,7 @@ const Users = () => {
         }}
       >
         <SafeAreaView style={styles.item}>
+          <Button title='Novo usuário' onPress={handleButtonPress} />
           <FlatList
             data={users}
             renderItem={renderItem}
