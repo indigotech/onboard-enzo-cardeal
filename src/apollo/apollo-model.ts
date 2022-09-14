@@ -25,3 +25,15 @@ export const loginMutation = gql`
     }
   }
 `;
+
+export const listUsersQuerry = gql`
+query ListUsers($pageInfo: PageInputType) {
+  users(pageInfo: $pageInfo) {
+    nodes {
+      id
+      email
+      role
+    }
+  }
+}
+`;
