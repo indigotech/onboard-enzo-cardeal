@@ -30,7 +30,7 @@ const Users = () => {
 
   const { loading, fetchMore } = useQuery(listUsersQuerry, listUsersData);
   const fetchDataAndUpdateOffset = () => {
-    if (users.length > 0 && hasNextPage) {
+    if (hasNextPage) {
       fetchMore({
         variables: {
           pageInfo: { offset: offset },

@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client';
-import { UserItem } from '../users/users-model';
 
 export interface MutationDataResponse {
   login: {
