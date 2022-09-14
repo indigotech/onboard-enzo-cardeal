@@ -50,7 +50,7 @@ Navigation.events().registerAppLaunchedListener(async () => {
         children: [
           {
             component: {
-              name: 'AddUser',
+              name: 'Home',
               options: {
                 topBar: {
                   title: {

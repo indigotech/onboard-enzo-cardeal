@@ -23,4 +23,23 @@ export const commonStyles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
   },
+  floatingButtonStyle: {
+    resizeMode: 'contain',
+    width: 50,
+    height: 50,
+    //backgroundColor:'black'
+  },
+  touchableOpacityStyle: {
+    position: 'absolute',
+    width: 50,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    right: 30,
+    bottom: 30,
+  },
+  item: {
+    borderBottomColor: 'black',
+    borderBottomWidth: 0.5,
+  },
 });

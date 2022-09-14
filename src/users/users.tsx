@@ -1,21 +1,12 @@
 import React, { useRef, useState } from 'react';
 import { useQuery } from '@apollo/client';
-import {
-  ActivityIndicator,
-  Alert,
-  Button,
-  FlatList,
-  SafeAreaView,
-  StatusBar,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import { ActivityIndicator, Alert, FlatList, SafeAreaView, StatusBar, Text, useColorScheme, View } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { ErrorResponse, listUsersQuerry, QueryDataResponse } from '../apollo/apollo-model';
 import { UserItem } from './users-model';
-import { styles } from './users-style';
+import { commonStyles } from '../common/common-style';
 import { Navigation, NavigationComponentProps } from 'react-native-navigation';
+import Fab from '../common/fab';
 
 const Users = (props: NavigationComponentProps) => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -51,7 +42,7 @@ const Users = (props: NavigationComponentProps) => {
 
   const renderItem = ({ item }: { item: UserItem }) => {
     return (
-      <View style={styles.item} key={item.id}>
+      <View style={commonStyles.item} key={item.id}>
         <Text>Usuário: {item.name}</Text>
         <Text>E-mail: {item.email}</Text>
       </View>
@@ -81,8 +72,7 @@ const Users = (props: NavigationComponentProps) => {
           backgroundColor: isDarkMode ? Colors.black : Colors.white,
         }}
       >
-        <SafeAreaView style={styles.item}>
-          <Button title='Novo usuário' onPress={handleButtonPress} />
+        <SafeAreaView style={commonStyles.item}>
           <FlatList
             data={users}
             renderItem={renderItem}
@@ -91,6 +81,7 @@ const Users = (props: NavigationComponentProps) => {
             onEndReached={updateList}
             ListFooterComponent={loading ? <ActivityIndicator /> : null}
           />
+          <Fab onPress={handleButtonPress} />
         </SafeAreaView>
       </View>
     </SafeAreaView>
