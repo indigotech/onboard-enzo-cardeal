@@ -45,12 +45,12 @@ export const AddUser = () => {
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}
         >
-          <Text>Id</Text>
-          <TextInput style={commonStyles.input} onChangeText={onChangeId} value={id} placeholder='1234' />
+          <Text>CPF</Text>
+          <TextInput style={commonStyles.input} onChangeText={onChangeId} value={id} placeholder='12345678912' />
           <Text>Nome</Text>
           <TextInput style={commonStyles.input} onChangeText={onChangeName} value={name} />
           <Text>Telefone</Text>
-          <TextInput style={commonStyles.input} onChangeText={onChangePhone} value={phone} placeholder='00000000000' />
+          <TextInput style={commonStyles.input} onChangeText={onChangePhone} value={phone} placeholder='12345678912' />
           <Text>Aniversário</Text>
           <TextInput
             style={commonStyles.input}

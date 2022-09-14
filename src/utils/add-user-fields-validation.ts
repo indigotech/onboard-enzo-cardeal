@@ -5,7 +5,7 @@ export const addUserFieldsValidation = (isIdValid: boolean, isNameValid: boolean
   
     const booleanList = [isIdValid, isNameValid, isPhoneValid, isBirthDateValid, isEmailValid, isRoleValid]
     const messages = [
-      'O campo Id deve ser composto apenas por números.\n\n',
+      'O campo CPF deve ser composto apenas por números e deve ter um total de 11 digitos.\n\n',
       'O campo Nome deve ser composto apenas por letras e deve ser preenchido com nome e sobrenome.\n\n',
       'O campo Telefone deve ser preenchido com 11 números, sendo os 2 primeiros o DD.\n\n',
       'O campo Aniversário deve ser prenchido no formato dd/mm/aaaa e deve ser uma data valida menor que o dia atual.\n\n',
