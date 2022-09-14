@@ -3,7 +3,6 @@ import { SafeAreaView, StatusBar, ScrollView, View, Text, TextInput, Button, use
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { commonStyles } from '../common/common-style';
 import {
-  birthDatePattern,
   emailPattern,
   idPattern,
   namePattern,
@@ -11,6 +10,7 @@ import {
   rolePattern,
 } from '../utils/add-user-fields-regex-validation';
 import { addUserFieldsValidation } from '../utils/add-user-fields-validation';
+import { validateDate } from '../utils/date-validation';
 
 export const AddUser = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -29,7 +29,7 @@ export const AddUser = () => {
     const isIdValid = idPattern.test(id);
     const isNameValid = namePattern.test(name);
     const isPhoneValid = phonePattern.test(phone);
-    const isBirthDateValid = birthDatePattern.test(birthDate);
+    const isBirthDateValid = validateDate(birthDate);
     const isEmailValid = emailPattern.test(email);
     const isRoleValid = rolePattern.test(role);
 
@@ -56,7 +56,7 @@ export const AddUser = () => {
             style={commonStyles.input}
             onChangeText={onChangeBirthDate}
             value={birthDate}
-            placeholder='00/00/00'
+            placeholder='01/01/2000'
           />
           <Text>E-mail</Text>
           <TextInput
@@ -67,7 +67,7 @@ export const AddUser = () => {
           />
           <Text>Função</Text>
           <TextInput style={commonStyles.input} onChangeText={onChangeRole} value={role} />
-          <Button title='Entrar' onPress={handleButtonPress} />
+          <Button title='Criar' onPress={handleButtonPress} />
         </View>
       </ScrollView>
     </SafeAreaView>

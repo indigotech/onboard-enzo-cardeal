@@ -8,7 +8,7 @@ export const addUserFieldsValidation = (isIdValid: boolean, isNameValid: boolean
       'O campo Id deve ser composto apenas por números.\n\n',
       'O campo Nome deve ser composto apenas por letras e deve ser preenchido com nome e sobrenome.\n\n',
       'O campo Telefone deve ser preenchido com 11 números, sendo os 2 primeiros o DD.\n\n',
-      'O campo Aniversário deve ser prenchido no formato dd/mm/aa. Não usar letras.\n\n',
+      'O campo Aniversário deve ser prenchido no formato dd/mm/aaaa e deve ser uma data valida menor que o dia atual.\n\n',
       'O campo e-mail deve ser preenchido no formato: ####@####.com\n\n',
       'O campo Função é uma palavra única e deve ser preenchido apenas com letras.'
     ]
