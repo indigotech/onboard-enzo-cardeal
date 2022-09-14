@@ -1,19 +1,19 @@
 import React, { PropsWithChildren } from 'react';
 import { Text, useColorScheme, View } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-import { appStyles } from './app-styles';
+import { commonStyles } from './common-style';
 
 interface SectionProps {
   title: string;
 }
 
-export const AppSection: React.FC<PropsWithChildren<SectionProps>> = ({ children, title }) => {
+export const CommonSection: React.FC<PropsWithChildren<SectionProps>> = ({ children, title }) => {
   const isDarkMode = useColorScheme() === 'dark';
   return (
-    <View style={appStyles.sectionContainer}>
+    <View style={commonStyles.sectionContainer}>
       <Text
         style={[
-          appStyles.sectionTitle,
+          commonStyles.sectionTitle,
           {
             color: isDarkMode ? Colors.white : Colors.black,
           },
@@ -23,7 +23,7 @@ export const AppSection: React.FC<PropsWithChildren<SectionProps>> = ({ children
       </Text>
       <Text
         style={[
-          appStyles.sectionDescription,
+          commonStyles.sectionDescription,
           {
             color: isDarkMode ? Colors.light : Colors.dark,
           },
