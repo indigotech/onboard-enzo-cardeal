@@ -1,5 +1,5 @@
 import React from 'react';
-import * as client from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { FlatList, SafeAreaView, StatusBar, Text, useColorScheme, View } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { userList } from '../../resources/mock/mock';
@@ -16,7 +16,7 @@ const Users = () => {
       },
     },
   };
-  const { data } = client.useQuery(listUsersQuerry, listUsersData);
+  const { data } = useQuery(listUsersQuerry, listUsersData);
   console.log(data);
   const isDarkMode = useColorScheme() === 'dark';
   const backgroundStyle = {
