@@ -1,6 +1,20 @@
+import { useMutation } from '@apollo/client';
 import React, { useState } from 'react';
-import { SafeAreaView, StatusBar, ScrollView, View, Text, TextInput, Button, useColorScheme } from 'react-native';
+import {
+  SafeAreaView,
+  StatusBar,
+  ScrollView,
+  View,
+  Text,
+  TextInput,
+  Button,
+  useColorScheme,
+  Alert,
+  ActivityIndicator,
+} from 'react-native';
+import { Navigation, NavigationComponentProps } from 'react-native-navigation';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { AddUserMutationDataResponse, createUserMutation, ErrorResponse } from '../apollo/apollo-model';
 import { commonStyles } from '../common/common-style';
 import {
   emailPattern,
@@ -12,7 +26,7 @@ import {
 import { addUserFieldsValidation } from '../utils/add-user-fields-validation';
 import { validateDate } from '../utils/date-validation';
 
-export const AddUser = () => {
+export const AddUser = (props: NavigationComponentProps) => {
   const isDarkMode = useColorScheme() === 'dark';
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
@@ -24,8 +38,42 @@ export const AddUser = () => {
   const [birthDate, onChangeBirthDate] = useState('');
   const [email, onChangeEmail] = useState('');
   const [role, onChangeRole] = useState('');
+  const [password, onChangePassword] = useState('');
 
-  const handleButtonPress = () => {
+  const [createUser, { loading }] = useMutation(createUserMutation);
+  const createUserData = {
+    variables: {
+      data: {
+        name: name,
+        email: email,
+        phone: phone,
+        birthDate: birthDate,
+        password: password,
+        role: role,
+      },
+    },
+    onCompleted: (response: AddUserMutationDataResponse) => {
+      console.log(response);
+      Navigation.push(props.componentId, {
+        component: {
+          name: 'Users',
+          options: {
+            topBar: {
+              title: {
+                text: 'Usuários',
+              },
+            },
+          },
+        },
+      });
+    },
+    onError: (response: ErrorResponse) => {
+      const errorMessage = response.message;
+      Alert.alert('ERRO', errorMessage, [{ text: 'OK' }]);
+    },
+  };
+
+  const handleButtonPress = async () => {
     const isIdValid = idPattern.test(id);
     const isNameValid = namePattern.test(name);
     const isPhoneValid = phonePattern.test(phone);
@@ -34,7 +82,11 @@ export const AddUser = () => {
     const isRoleValid = rolePattern.test(role);
 
     const fieldsValidation = [isIdValid, isNameValid, isPhoneValid, isBirthDateValid, isEmailValid, isRoleValid];
-    addUserFieldsValidation(fieldsValidation);
+    const areFieldsValid = addUserFieldsValidation(fieldsValidation);
+
+    if (areFieldsValid) {
+      await createUser(createUserData);
+    }
   };
 
   return (
@@ -66,9 +118,17 @@ export const AddUser = () => {
             value={email}
             placeholder='nome@email.com'
           />
+          <Text>Senha</Text>
+          <TextInput
+            secureTextEntry={true}
+            style={commonStyles.input}
+            onChangeText={onChangePassword}
+            value={password}
+          />
           <Text>Função</Text>
           <TextInput style={commonStyles.input} onChangeText={onChangeRole} value={role} />
-          <Button title='Criar' onPress={handleButtonPress} />
+          <Button title='Criar' onPress={handleButtonPress} disabled={loading} />
+          {loading && <ActivityIndicator color={'#000000'} />}
         </View>
       </ScrollView>
     </SafeAreaView>

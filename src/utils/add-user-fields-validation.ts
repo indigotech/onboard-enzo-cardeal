@@ -18,7 +18,10 @@ export const addUserFieldsValidation = (booleanList: Array<boolean>) => {
       alertDescription += messages[i];
     }
   }
-  if (alertDescription !== '') {
+  if (alertDescription != '') {
     Alert.alert('Campo inválido', alertDescription, [{ text: 'OK' }]);
+    return false;
+  } else {
+    return true;
   }
 };
