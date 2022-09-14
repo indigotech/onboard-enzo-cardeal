@@ -9,7 +9,6 @@ import { styles } from './users-style';
 const Users = () => {
   const [offset, setOffset] = useState(0);
   const [users, setUsers] = useState([]);
-  const [hasNextPage, setHasNextPage] = useState(true);
 
   const listUsersData = {
     variables: {
@@ -20,7 +19,6 @@ const Users = () => {
     },
     onCompleted: (response: QueryDataResponse) => {
       setUsers([...users, ...response.users.nodes]);
-      setHasNextPage(response.users.pageInfo.hasNextPage);
     },
     onError: (response: ErrorResponse) => {
       const errorMessage = response.message;
@@ -28,18 +26,7 @@ const Users = () => {
     },
   };
 
-  const { loading, fetchMore } = useQuery(listUsersQuerry, listUsersData);
-  const fetchDataAndUpdateOffset = () => {
-    if (hasNextPage) {
-      fetchMore({
-        variables: {
-          pageInfo: { offset: offset },
-        },
-      }).then(() => {
-        setOffset(offset + 30);
-      });
-    }
-  };
+  const { loading } = useQuery(listUsersQuerry, listUsersData);
   const isDarkMode = useColorScheme() === 'dark';
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
@@ -67,7 +54,7 @@ const Users = () => {
             renderItem={renderItem}
             keyExtractor={(item) => item.id}
             onEndReachedThreshold={0.05}
-            onEndReached={fetchDataAndUpdateOffset}
+            onEndReached={() => setOffset(offset + 30)}
             ListFooterComponent={loading ? <ActivityIndicator /> : null}
           />
         </SafeAreaView>
