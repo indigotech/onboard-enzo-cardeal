@@ -27,7 +27,6 @@ export const commonStyles = StyleSheet.create({
     resizeMode: 'contain',
     width: 50,
     height: 50,
-    //backgroundColor:'black'
   },
   touchableOpacityStyle: {
     position: 'absolute',
