@@ -14,9 +14,9 @@ export interface LoginMutationDataResponse {
 export interface AddUserMutationDataResponse {
   login: {
     __typename: string;
-    id: string,
-    email: string,
-    role: string
+    id: string;
+    email: string;
+    role: string;
   };
 }
 
@@ -50,13 +50,13 @@ export const loginMutation = gql`
 `;
 
 export const createUserMutation = gql`
-mutation CreateUser($data: UserInputType!){
-  createUser(data: $data){
-  	id
-    email
-    role
-	}
-}
+  mutation CreateUser($data: UserInputType!) {
+    createUser(data: $data) {
+      id
+      email
+      role
+    }
+  }
 `;
 
 export const listUsersQuerry = gql`
