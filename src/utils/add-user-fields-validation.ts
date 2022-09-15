@@ -1,8 +1,24 @@
+import { BooleanValueNode } from 'graphql';
 import { Alert } from 'react-native';
 
-export const addUserFieldsValidation = (booleanList: Array<boolean>) => {
+export const addUserFieldsValidation = ({
+  isNameValid,
+  isPhoneValid,
+  isBirthDateValid,
+  isEmailValid,
+  isPasswordValid,
+  isRoleValid,
+}: {
+  isNameValid: boolean;
+  isPhoneValid: boolean;
+  isBirthDateValid: boolean;
+  isEmailValid: boolean;
+  isPasswordValid: boolean;
+  isRoleValid: boolean;
+}) => {
   let alertDescription = '';
 
+  const fieldsValidations = [isNameValid, isPhoneValid, isBirthDateValid, isEmailValid, isPasswordValid, isRoleValid];
   const messages = [
     'O campo Nome deve ser composto apenas por letras e deve ser preenchido com nome e sobrenome.\n\n',
     'O campo Telefone deve ser preenchido com 11 números, sendo os 2 primeiros o DD.\n\n',
@@ -12,8 +28,8 @@ export const addUserFieldsValidation = (booleanList: Array<boolean>) => {
     'O campo Função deve ser "user" ou "admin"',
   ];
 
-  for (let i = 0; i < booleanList.length; i++) {
-    const item = booleanList[i];
+  for (let i = 0; i < fieldsValidations.length; i++) {
+    const item = fieldsValidations[i];
     if (!item) {
       alertDescription += messages[i];
     }

@@ -82,9 +82,14 @@ export const AddUser = (props: NavigationComponentProps) => {
     const isPasswordValid = passwordPattern.test(password);
     const isRoleValid = rolePattern.test(role);
 
-    const fieldsValidation = [isNameValid, isPhoneValid, isBirthDateValid, isEmailValid, isPasswordValid, isRoleValid];
-    const areFieldsValid = addUserFieldsValidation(fieldsValidation);
-
+    const areFieldsValid = addUserFieldsValidation({
+      isNameValid,
+      isPhoneValid,
+      isBirthDateValid,
+      isEmailValid,
+      isPasswordValid,
+      isRoleValid,
+    });
     if (areFieldsValid) {
       await createUser(createUserData);
     }
