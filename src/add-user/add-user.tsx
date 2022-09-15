@@ -14,7 +14,8 @@ import {
 } from 'react-native';
 import { Navigation, NavigationComponentProps } from 'react-native-navigation';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-import { AddUserMutationDataResponse, createUserMutation, ErrorResponse } from '../apollo/apollo-model';
+import { AddUserMutationDataResponse, ErrorResponse } from '../apollo/apollo-interfaces';
+import { createUserMutation } from '../apollo/mutations';
 import { commonStyles } from '../common/common-style';
 import {
   emailPattern,

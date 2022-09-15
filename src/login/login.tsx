@@ -27,12 +27,13 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { useMutation } from '@apollo/client';
 
 import { storeAuthenticationToken } from '../utils/async-token-storage';
-import { LoginMutationDataResponse, ErrorResponse, loginMutation } from '../apollo/apollo-model';
+import { LoginMutationDataResponse, ErrorResponse } from '../apollo/apollo-interfaces';
 import { emailPattern, passwordPattern } from '../utils/login-fields-regex-validation';
 import { commonStyles } from '../common/common-style';
 import { loginFieldsValidation } from '../utils/login-fields-validation';
 import { CommonSection } from '../common/common-dynamic-color-section';
 import { Navigation, NavigationComponentProps } from 'react-native-navigation';
+import { loginMutation } from '../apollo/mutations';
 
 const Login = (props: NavigationComponentProps) => {
   const isDarkMode = useColorScheme() === 'dark';
