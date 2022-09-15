@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useQuery } from '@apollo/client';
 import { ActivityIndicator, Alert, FlatList, SafeAreaView, StatusBar, Text, useColorScheme, View } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
@@ -7,9 +7,13 @@ import { UserItem } from './users-model';
 import { styles } from './users-style';
 
 const Users = () => {
+  const isDarkMode = useColorScheme() === 'dark';
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+  };
   const [offset, setOffset] = useState(0);
   const [users, setUsers] = useState([]);
-
+  const hasNextPage = useRef(true);
   const listUsersData = {
     variables: {
       pageInfo: {
@@ -19,17 +23,19 @@ const Users = () => {
     },
     onCompleted: (response: QueryDataResponse) => {
       setUsers([...users, ...response.users.nodes]);
+      hasNextPage.current = response.users.pageInfo.hasNextPage;
     },
     onError: (response: ErrorResponse) => {
       const errorMessage = response.message;
       Alert.alert('ERRO', errorMessage, [{ text: 'OK' }]);
     },
   };
-
   const { loading } = useQuery(listUsersQuerry, listUsersData);
-  const isDarkMode = useColorScheme() === 'dark';
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+
+  const updateList = () => {
+    if (hasNextPage.current) {
+      setOffset(offset + 30);
+    }
   };
 
   const renderItem = ({ item }: { item: UserItem }) => {
@@ -54,7 +60,7 @@ const Users = () => {
             renderItem={renderItem}
             keyExtractor={(item) => item.id}
             onEndReachedThreshold={0.05}
-            onEndReached={() => setOffset(offset + 30)}
+            onEndReached={updateList}
             ListFooterComponent={loading ? <ActivityIndicator /> : null}
           />
         </SafeAreaView>
