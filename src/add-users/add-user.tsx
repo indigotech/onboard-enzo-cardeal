@@ -33,7 +33,8 @@ export const AddUser = () => {
     const isEmailValid = emailPattern.test(email);
     const isRoleValid = rolePattern.test(role);
 
-    addUserFieldsValidation(isIdValid, isNameValid, isPhoneValid, isBirthDateValid, isEmailValid, isRoleValid);
+    const booleanList = [isIdValid, isNameValid, isPhoneValid, isBirthDateValid, isEmailValid, isRoleValid];
+    addUserFieldsValidation(booleanList);
   };
 
   return (

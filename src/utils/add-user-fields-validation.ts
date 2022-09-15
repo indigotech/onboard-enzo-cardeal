@@ -1,16 +1,8 @@
 import { Alert } from 'react-native';
 
-export const addUserFieldsValidation = (
-  isIdValid: boolean,
-  isNameValid: boolean,
-  isPhoneValid: boolean,
-  isBirthDateValid: boolean,
-  isEmailValid: boolean,
-  isRoleValid: boolean,
-) => {
+export const addUserFieldsValidation = (booleanList: Array<boolean>) => {
   let alertDescription = '';
 
-  const booleanList = [isIdValid, isNameValid, isPhoneValid, isBirthDateValid, isEmailValid, isRoleValid];
   const messages = [
     'O campo CPF deve ser composto apenas por números e deve ter um total de 11 digitos.\n\n',
     'O campo Nome deve ser composto apenas por letras e deve ser preenchido com nome e sobrenome.\n\n',
