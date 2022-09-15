@@ -34,6 +34,7 @@ import { loginFieldsValidation } from '../utils/login-fields-validation';
 import { CommonSection } from '../common/common-dynamic-color-section';
 import { Navigation, NavigationComponentProps } from 'react-native-navigation';
 import { loginMutation } from '../apollo/mutations';
+import { ButtonContainer, ButtonText, Title } from '../styled-components';
 
 const Login = (props: NavigationComponentProps) => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -89,7 +90,8 @@ const Login = (props: NavigationComponentProps) => {
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}
         >
-          <CommonSection title='Bem-vindo(a) à Taqtile!' />
+          <Title>Bem-vindo(a) à Taqtile</Title>
+          {/* <CommonSection title='Bem-vindo(a) à Taqtile!' /> */}
           <Text>E-mail</Text>
           <TextInput style={commonStyles.input} onChangeText={onChangeEmail} value={email} />
           <Text>Senha</Text>
@@ -99,7 +101,10 @@ const Login = (props: NavigationComponentProps) => {
             onChangeText={onChangePassword}
             value={password}
           />
-          <Button title='Entrar' onPress={handleButtonPress} disabled={loading} />
+          <ButtonContainer>
+            <ButtonText>Entrar</ButtonText>
+          </ButtonContainer>
+          {/* <Button title='Entrar' onPress={handleButtonPress} disabled={loading} /> */}
           {loading && <ActivityIndicator color={'#000000'} />}
         </View>
       </ScrollView>
