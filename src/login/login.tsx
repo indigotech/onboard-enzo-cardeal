@@ -38,8 +38,8 @@ import { ButtonContainer, ButtonText, Title } from '../styled-components';
 import Form from '../components/form';
 
 const Login = (props: NavigationComponentProps) => {
-  const [isEmailValid, setIsEmailValid] = useState(true);
-  const [isPasswordValid, setIsPasswordlValid] = useState(true);
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
 
   const isDarkMode = useColorScheme() === 'dark';
   const backgroundStyle = {
@@ -76,15 +76,15 @@ const Login = (props: NavigationComponentProps) => {
   const [login, { loading }] = useMutation(loginMutation);
 
   const handleButtonPress = async () => {
-    setIsEmailValid(emailPattern.test(email));
-    console.log(isEmailValid);
-    setIsPasswordlValid(passwordPattern.test(password));
-    console.log(isPasswordValid);
+    const isEmailValid = emailPattern.test(email);
+    const isPasswordValid = passwordPattern.test(password);
     const areFieldsValid = loginFieldsValidation(isEmailValid, isPasswordValid);
-    console.log(areFieldsValid);
     if (areFieldsValid) {
       await login(loginData);
     }
+
+    setEmailError(!isEmailValid);
+    setPasswordError(!isPasswordValid);
   };
 
   return (
@@ -99,17 +99,18 @@ const Login = (props: NavigationComponentProps) => {
           <Title>Bem-vindo(a) à Taqtile</Title>
           <Form
             title='E-mail'
-            hasError={true}
+            hasError={emailError}
             errorMessage='E-mail inválido'
             onChangeText={onChangeEmail}
             value={email}
           />
           <Form
             title='Senha'
-            hasError={!isPasswordValid}
+            hasError={passwordError}
             errorMessage='Senha inválida'
             onChangeText={onChangePassword}
             value={password}
+            secureTextEntry={true}
           />
           <ButtonContainer activeOpacity={0.7} onPress={handleButtonPress}>
             <ButtonText>Entrar</ButtonText>

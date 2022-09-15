@@ -9,6 +9,7 @@ interface Form {
   onChangeText?: ((text: string) => void) | undefined;
   value: string;
   placeholder?: string;
+  secureTextEntry?: boolean;
 }
 
 const Form = (props: Form) => {
@@ -20,6 +21,7 @@ const Form = (props: Form) => {
         value={props.value}
         placeholder={props.placeholder}
         hasError={props.hasError}
+        secureTextEntry={props.secureTextEntry}
       />
       <FormView>{props.hasError && <FormCaption>{props.errorMessage}</FormCaption>}</FormView>
     </View>
