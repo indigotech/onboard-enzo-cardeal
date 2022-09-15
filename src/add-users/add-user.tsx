@@ -20,6 +20,7 @@ import {
   emailPattern,
   idPattern,
   namePattern,
+  passwordPattern,
   phonePattern,
   rolePattern,
 } from '../utils/add-user-fields-regex-validation';
@@ -32,7 +33,6 @@ export const AddUser = (props: NavigationComponentProps) => {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
-  const [id, onChangeId] = useState('');
   const [name, onChangeName] = useState('');
   const [phone, onChangePhone] = useState('');
   const [birthDate, onChangeBirthDate] = useState('');
@@ -41,19 +41,20 @@ export const AddUser = (props: NavigationComponentProps) => {
   const [password, onChangePassword] = useState('');
 
   const [createUser, { loading }] = useMutation(createUserMutation);
+  const birthDateSplitted = birthDate.split('/');
+  const birthDateFormatted = birthDateSplitted[2] + '-' + birthDateSplitted[1] + '-' + birthDateSplitted[0];
   const createUserData = {
     variables: {
       data: {
         name: name,
         email: email,
         phone: phone,
-        birthDate: birthDate,
+        birthDate: birthDateFormatted,
         password: password,
         role: role,
       },
     },
     onCompleted: (response: AddUserMutationDataResponse) => {
-      console.log(response);
       Navigation.push(props.componentId, {
         component: {
           name: 'Users',
@@ -74,14 +75,14 @@ export const AddUser = (props: NavigationComponentProps) => {
   };
 
   const handleButtonPress = async () => {
-    const isIdValid = idPattern.test(id);
     const isNameValid = namePattern.test(name);
     const isPhoneValid = phonePattern.test(phone);
-    const isBirthDateValid = validateDate(birthDate);
+    const isBirthDateValid = validateDate(birthDateFormatted);
     const isEmailValid = emailPattern.test(email);
+    const isPasswordValid = passwordPattern.test(password);
     const isRoleValid = rolePattern.test(role);
 
-    const fieldsValidation = [isIdValid, isNameValid, isPhoneValid, isBirthDateValid, isEmailValid, isRoleValid];
+    const fieldsValidation = [isNameValid, isPhoneValid, isBirthDateValid, isEmailValid, isPasswordValid, isRoleValid];
     const areFieldsValid = addUserFieldsValidation(fieldsValidation);
 
     if (areFieldsValid) {
@@ -98,8 +99,6 @@ export const AddUser = (props: NavigationComponentProps) => {
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}
         >
-          <Text>CPF</Text>
-          <TextInput style={commonStyles.input} onChangeText={onChangeId} value={id} placeholder='12345678912' />
           <Text>Nome</Text>
           <TextInput style={commonStyles.input} onChangeText={onChangeName} value={name} />
           <Text>Telefone</Text>
