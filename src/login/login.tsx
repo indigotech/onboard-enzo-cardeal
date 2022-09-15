@@ -8,7 +8,7 @@
  * @format
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -35,14 +35,18 @@ import { CommonSection } from '../common/common-dynamic-color-section';
 import { Navigation, NavigationComponentProps } from 'react-native-navigation';
 import { loginMutation } from '../apollo/mutations';
 import { ButtonContainer, ButtonText, Title } from '../styled-components';
+import Form from '../components/form';
 
 const Login = (props: NavigationComponentProps) => {
+  const [isEmailValid, setIsEmailValid] = useState(true);
+  const [isPasswordValid, setIsPasswordlValid] = useState(true);
+
   const isDarkMode = useColorScheme() === 'dark';
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
-  const [email, onChangeEmail] = React.useState('');
-  const [password, onChangePassword] = React.useState('');
+  const [email, onChangeEmail] = useState('');
+  const [password, onChangePassword] = useState('');
 
   const loginData = {
     variables: {
@@ -72,10 +76,12 @@ const Login = (props: NavigationComponentProps) => {
   const [login, { loading }] = useMutation(loginMutation);
 
   const handleButtonPress = async () => {
-    const isEmailValid = emailPattern.test(email);
-    const isPasswordValid = passwordPattern.test(password);
+    setIsEmailValid(emailPattern.test(email));
+    console.log(isEmailValid);
+    setIsPasswordlValid(passwordPattern.test(password));
+    console.log(isPasswordValid);
     const areFieldsValid = loginFieldsValidation(isEmailValid, isPasswordValid);
-
+    console.log(areFieldsValid);
     if (areFieldsValid) {
       await login(loginData);
     }
@@ -91,20 +97,23 @@ const Login = (props: NavigationComponentProps) => {
           }}
         >
           <Title>Bem-vindo(a) à Taqtile</Title>
-          {/* <CommonSection title='Bem-vindo(a) à Taqtile!' /> */}
-          <Text>E-mail</Text>
-          <TextInput style={commonStyles.input} onChangeText={onChangeEmail} value={email} />
-          <Text>Senha</Text>
-          <TextInput
-            secureTextEntry={true}
-            style={commonStyles.input}
+          <Form
+            title='E-mail'
+            hasError={true}
+            errorMessage='E-mail inválido'
+            onChangeText={onChangeEmail}
+            value={email}
+          />
+          <Form
+            title='Senha'
+            hasError={!isPasswordValid}
+            errorMessage='Senha inválida'
             onChangeText={onChangePassword}
             value={password}
           />
-          <ButtonContainer>
+          <ButtonContainer activeOpacity={0.7} onPress={handleButtonPress}>
             <ButtonText>Entrar</ButtonText>
           </ButtonContainer>
-          {/* <Button title='Entrar' onPress={handleButtonPress} disabled={loading} /> */}
           {loading && <ActivityIndicator color={'#000000'} />}
         </View>
       </ScrollView>
