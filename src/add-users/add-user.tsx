@@ -46,12 +46,12 @@ export const AddUser = (props: NavigationComponentProps) => {
   const createUserData = {
     variables: {
       data: {
-        name: name,
-        email: email,
-        phone: phone,
+        name,
+        email,
+        phone,
         birthDate: birthDateFormatted,
-        password: password,
-        role: role,
+        password,
+        role,
       },
     },
     onCompleted: (response: AddUserMutationDataResponse) => {
