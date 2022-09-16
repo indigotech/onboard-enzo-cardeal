@@ -1,11 +1,21 @@
 import React from 'react';
 import { View } from 'react-native';
 import { FormCaption, FormInputText, FormLabel, FormView } from '../styled-components/styled-components';
-import { FormProps } from './interface';
 
-const Form = (props: FormProps) => {
+interface FormTextFieldProps {
+  title: string;
+  hasError: boolean;
+  errorMessage?: string;
+  onChangeText?: ((text: string) => void) | undefined;
+  value: string;
+  placeholder?: string;
+  secureTextEntry?: boolean;
+  autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters' | undefined;
+}
+
+const FormTextField = (props: FormTextFieldProps) => {
   return (
-    <View>
+    <>
       <FormLabel hasError={props.hasError}>{props.title}</FormLabel>
       <FormInputText
         onChangeText={props.onChangeText}
@@ -16,8 +26,8 @@ const Form = (props: FormProps) => {
         autoCapitalize={props.autoCapitalize}
       />
       <FormView>{props.hasError && <FormCaption>{props.errorMessage}</FormCaption>}</FormView>
-    </View>
+    </>
   );
 };
 
-export default Form;
+export default FormTextField;

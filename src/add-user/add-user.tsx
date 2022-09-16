@@ -5,8 +5,8 @@ import { Navigation, NavigationComponentProps } from 'react-native-navigation';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { AddUserMutationDataResponse, ErrorResponse } from '../apollo/apollo-interfaces';
 import { createUserMutation } from '../apollo/mutations';
-import CustomButton from '../components/custom-button';
-import Form from '../components/form';
+import FormSubmitButton from '../components/form-submit-button';
+import FormTextField from '../components/form-text-field';
 import { Title } from '../styled-components/styled-components';
 import {
   emailPattern,
@@ -25,12 +25,12 @@ export const AddUser = (props: NavigationComponentProps) => {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
-  const [name, onChangeName] = useState('');
-  const [phone, onChangePhone] = useState('');
-  const [birthDate, onChangeBirthDate] = useState('');
-  const [email, onChangeEmail] = useState('');
-  const [role, onChangeRole] = useState('');
-  const [password, onChangePassword] = useState('');
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [birthDate, setBirthDate] = useState('');
+  const [email, setEmail] = useState('');
+  const [role, setRole] = useState('');
+  const [password, setPassword] = useState('');
 
   const [nameError, setNameError] = useState(false);
   const [phoneError, setPhoneError] = useState(false);
@@ -111,56 +111,56 @@ export const AddUser = (props: NavigationComponentProps) => {
           }}
         >
           <Title>Criar Usuário</Title>
-          <Form
+          <FormTextField
             title='Nome'
             hasError={nameError}
             errorMessage='Nome inválido'
             value={name}
-            onChangeText={onChangeName}
+            onChangeText={setName}
           />
-          <Form
+          <FormTextField
             title='Telefone'
             hasError={phoneError}
             errorMessage='Telefone inválido'
             value={phone}
-            onChangeText={onChangePhone}
+            onChangeText={setPhone}
             placeholder='12345678912'
           />
-          <Form
+          <FormTextField
             title='Aniversário'
             hasError={birthDateError}
             errorMessage='Data inválida'
             value={birthDate}
-            onChangeText={onChangeBirthDate}
+            onChangeText={setBirthDate}
             placeholder='01/01/2000'
           />
-          <Form
+          <FormTextField
             title='E-mail'
             hasError={emailError}
             errorMessage='E-mail inválido'
             value={email}
-            onChangeText={onChangeEmail}
+            onChangeText={setEmail}
             placeholder='nome@email.com'
             autoCapitalize='none'
           />
-          <Form
+          <FormTextField
             title='Senha'
             hasError={passwordError}
             errorMessage='Senha inválida'
             value={password}
-            onChangeText={onChangePassword}
+            onChangeText={setPassword}
             secureTextEntry={true}
           />
-          <Form
+          <FormTextField
             title='Função'
             hasError={roleError}
             errorMessage='Função inválida'
             value={role}
-            onChangeText={onChangeRole}
+            onChangeText={setRole}
             placeholder='user'
             autoCapitalize='none'
           />
-          <CustomButton title='Criar' onPress={handleButtonPress} disabled={loading} />
+          <FormSubmitButton title='Criar' onPress={handleButtonPress} disabled={loading} />
           {loading && <ActivityIndicator color={'#000000'} />}
         </View>
       </ScrollView>

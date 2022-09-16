@@ -22,8 +22,8 @@ import { loginFieldsValidation } from '../utils/login-fields-validation';
 import { Navigation, NavigationComponentProps } from 'react-native-navigation';
 import { loginMutation } from '../apollo/mutations';
 import { Title } from '../styled-components/styled-components';
-import Form from '../components/form';
-import CustomButton from '../components/custom-button';
+import FormTextField from '../components/form-text-field';
+import FormSubmitButton from '../components/form-submit-button';
 
 const Login = (props: NavigationComponentProps) => {
   const [emailError, setEmailError] = useState(false);
@@ -33,8 +33,8 @@ const Login = (props: NavigationComponentProps) => {
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
-  const [email, onChangeEmail] = useState('');
-  const [password, onChangePassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const loginData = {
     variables: {
@@ -84,24 +84,24 @@ const Login = (props: NavigationComponentProps) => {
           }}
         >
           <Title>Bem-vindo(a) à Taqtile</Title>
-          <Form
+          <FormTextField
             title='E-mail'
             hasError={emailError}
             errorMessage='E-mail inválido'
-            onChangeText={onChangeEmail}
+            onChangeText={setEmail}
             value={email}
             autoCapitalize='none'
           />
-          <Form
+          <FormTextField
             title='Senha'
             hasError={passwordError}
             errorMessage='Senha inválida'
-            onChangeText={onChangePassword}
+            onChangeText={setPassword}
             value={password}
             secureTextEntry={true}
             autoCapitalize='none'
           />
-          <CustomButton title='Entrar' onPress={handleButtonPress} disabled={loading} />
+          <FormSubmitButton title='Entrar' onPress={handleButtonPress} disabled={loading} />
           {loading && <ActivityIndicator color={'#000000'} />}
         </View>
       </ScrollView>

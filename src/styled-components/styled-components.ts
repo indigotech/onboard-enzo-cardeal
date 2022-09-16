@@ -1,5 +1,8 @@
 import styled from 'styled-components/native';
-import { FormProps } from './interface';
+
+interface FormInputTextProps {
+  hasError: boolean;
+}
 
 export const Title = styled.Text`
   font-size: 24px;
@@ -36,7 +39,7 @@ export const FormCaption = styled.Text`
   padding-left: 66%;
 `;
 
-export const FormInputText = styled.TextInput<FormProps>`
+export const FormInputText = styled.TextInput<FormInputTextProps>`
   border: 1px;
   padding-left: 2%;
   height: 30px;
@@ -47,7 +50,7 @@ export const FormInputText = styled.TextInput<FormProps>`
   width: 300px;
 `;
 
-export const FormLabel = styled.Text<FormProps>`
+export const FormLabel = styled.Text<FormInputTextProps>`
   padding-left: 50px;
   font-size: 12px;
   font-weight: normal;
