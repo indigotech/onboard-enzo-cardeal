@@ -1,15 +1,17 @@
 import styled from 'styled-components/native';
+import { FormProps } from './interface';
 
 export const Title = styled.Text`
   font-size: 24px;
   font-weight: bold;
-  text-align: center;
+  padding-left: 50px;
   color: black #000000;
   margin-top: 20px;
   margin-bottom: 20px;
 `;
 
 export const ButtonContainer = styled.TouchableOpacity`
+  opacity: ${(props) => (props.disabled ? 0.1 : 1)};
   background-color: #00bcd4;
   border-radius: 10px;
   border-width: 1px;
@@ -54,9 +56,5 @@ export const FormLabel = styled.Text<FormProps>`
 `;
 
 export const FormView = styled.View`
-  height: 40px;
+  height: 27px;
 `;
-
-interface FormProps {
-  hasError: boolean;
-}

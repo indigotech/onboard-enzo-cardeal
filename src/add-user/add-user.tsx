@@ -1,22 +1,13 @@
 import { useMutation } from '@apollo/client';
 import React, { useState } from 'react';
-import {
-  SafeAreaView,
-  StatusBar,
-  ScrollView,
-  View,
-  Text,
-  TextInput,
-  Button,
-  useColorScheme,
-  Alert,
-  ActivityIndicator,
-} from 'react-native';
+import { SafeAreaView, StatusBar, ScrollView, View, useColorScheme, Alert, ActivityIndicator } from 'react-native';
 import { Navigation, NavigationComponentProps } from 'react-native-navigation';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { AddUserMutationDataResponse, ErrorResponse } from '../apollo/apollo-interfaces';
 import { createUserMutation } from '../apollo/mutations';
-import { commonStyles } from '../common/common-style';
+import CustomButton from '../components/custom-button';
+import Form from '../components/form';
+import { Title } from '../styled-components/styled-components';
 import {
   emailPattern,
   idPattern,
@@ -40,6 +31,13 @@ export const AddUser = (props: NavigationComponentProps) => {
   const [email, onChangeEmail] = useState('');
   const [role, onChangeRole] = useState('');
   const [password, onChangePassword] = useState('');
+
+  const [nameError, setNameError] = useState(false);
+  const [phoneError, setPhoneError] = useState(false);
+  const [birthDateError, setBirthDateError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [roleError, setRoleError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
 
   const [createUser, { loading }] = useMutation(createUserMutation);
   const birthDateSplitted = birthDate.split('/');
@@ -83,6 +81,13 @@ export const AddUser = (props: NavigationComponentProps) => {
     const isPasswordValid = passwordPattern.test(password);
     const isRoleValid = rolePattern.test(role);
 
+    setNameError(!isNameValid);
+    setPhoneError(!isPhoneValid);
+    setBirthDateError(!isBirthDateValid);
+    setEmailError(!isEmailValid);
+    setPasswordError(!isPasswordValid);
+    setRoleError(!isRoleValid);
+
     const areFieldsValid = addUserFieldsValidation({
       isNameValid,
       isPhoneValid,
@@ -105,34 +110,57 @@ export const AddUser = (props: NavigationComponentProps) => {
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}
         >
-          <Text>Nome</Text>
-          <TextInput style={commonStyles.input} onChangeText={onChangeName} value={name} />
-          <Text>Telefone</Text>
-          <TextInput style={commonStyles.input} onChangeText={onChangePhone} value={phone} placeholder='12345678912' />
-          <Text>Aniversário</Text>
-          <TextInput
-            style={commonStyles.input}
-            onChangeText={onChangeBirthDate}
+          <Title>Criar Usuário</Title>
+          <Form
+            title='Nome'
+            hasError={nameError}
+            errorMessage='Nome inválido'
+            value={name}
+            onChangeText={onChangeName}
+          />
+          <Form
+            title='Telefone'
+            hasError={phoneError}
+            errorMessage='Telefone inválido'
+            value={phone}
+            onChangeText={onChangePhone}
+            placeholder='12345678912'
+          />
+          <Form
+            title='Aniversário'
+            hasError={birthDateError}
+            errorMessage='Data inválida'
             value={birthDate}
+            onChangeText={onChangeBirthDate}
             placeholder='01/01/2000'
           />
-          <Text>E-mail</Text>
-          <TextInput
-            style={commonStyles.input}
-            onChangeText={onChangeEmail}
+          <Form
+            title='E-mail'
+            hasError={emailError}
+            errorMessage='E-mail inválido'
             value={email}
+            onChangeText={onChangeEmail}
             placeholder='nome@email.com'
+            autoCapitalize='none'
           />
-          <Text>Senha</Text>
-          <TextInput
-            secureTextEntry={true}
-            style={commonStyles.input}
-            onChangeText={onChangePassword}
+          <Form
+            title='Senha'
+            hasError={passwordError}
+            errorMessage='Senha inválida'
             value={password}
+            onChangeText={onChangePassword}
+            secureTextEntry={true}
           />
-          <Text>Função</Text>
-          <TextInput style={commonStyles.input} onChangeText={onChangeRole} value={role} />
-          <Button title='Criar' onPress={handleButtonPress} disabled={loading} />
+          <Form
+            title='Função'
+            hasError={roleError}
+            errorMessage='Função inválida'
+            value={role}
+            onChangeText={onChangeRole}
+            placeholder='user'
+            autoCapitalize='none'
+          />
+          <CustomButton title='Criar' onPress={handleButtonPress} disabled={loading} />
           {loading && <ActivityIndicator color={'#000000'} />}
         </View>
       </ScrollView>

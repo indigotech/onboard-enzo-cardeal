@@ -1,19 +1,9 @@
 import React from 'react';
-import { Text, TextInput, View } from 'react-native';
-import { FormCaption, FormInputText, FormLabel, FormView } from '../styled-components';
+import { View } from 'react-native';
+import { FormCaption, FormInputText, FormLabel, FormView } from '../styled-components/styled-components';
+import { FormProps } from './interface';
 
-interface Form {
-  title: string;
-  hasError: boolean;
-  errorMessage?: string;
-  onChangeText?: ((text: string) => void) | undefined;
-  value: string;
-  placeholder?: string;
-  secureTextEntry?: boolean;
-  autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters' | undefined;
-}
-
-const Form = (props: Form) => {
+const Form = (props: FormProps) => {
   return (
     <View>
       <FormLabel hasError={props.hasError}>{props.title}</FormLabel>

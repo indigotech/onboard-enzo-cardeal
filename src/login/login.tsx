@@ -19,10 +19,9 @@ import { storeAuthenticationToken } from '../utils/async-token-storage';
 import { LoginMutationDataResponse, ErrorResponse } from '../apollo/apollo-interfaces';
 import { emailPattern, passwordPattern } from '../utils/login-fields-regex-validation';
 import { loginFieldsValidation } from '../utils/login-fields-validation';
-import { CommonSection } from '../common/common-dynamic-color-section';
 import { Navigation, NavigationComponentProps } from 'react-native-navigation';
 import { loginMutation } from '../apollo/mutations';
-import { Title } from '../styled-components';
+import { Title } from '../styled-components/styled-components';
 import Form from '../components/form';
 import CustomButton from '../components/custom-button';
 
@@ -102,7 +101,7 @@ const Login = (props: NavigationComponentProps) => {
             secureTextEntry={true}
             autoCapitalize='none'
           />
-          <CustomButton title='Entrar' onPress={handleButtonPress} />
+          <CustomButton title='Entrar' onPress={handleButtonPress} disabled={loading} />
           {loading && <ActivityIndicator color={'#000000'} />}
         </View>
       </ScrollView>

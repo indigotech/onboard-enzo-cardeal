@@ -1,15 +1,11 @@
 import React from 'react';
 import { GestureResponderEvent } from 'react-native';
-import { ButtonContainer, ButtonText } from '../styled-components';
-
-interface CustomButtonProps {
-  title: string;
-  onPress?: ((event: GestureResponderEvent) => void) | undefined;
-}
+import { ButtonContainer, ButtonText } from '../styled-components/styled-components';
+import { CustomButtonProps } from './interface';
 
 const CustomButton = (props: CustomButtonProps) => {
   return (
-    <ButtonContainer activeOpacity={0.7} onPress={props.onPress}>
+    <ButtonContainer activeOpacity={0.7} onPress={props.onPress} disabled={props.disabled}>
       <ButtonText>{props.title}</ButtonText>
     </ButtonContainer>
   );
