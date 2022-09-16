@@ -10,6 +10,7 @@ interface Form {
   value: string;
   placeholder?: string;
   secureTextEntry?: boolean;
+  autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters' | undefined;
 }
 
 const Form = (props: Form) => {
@@ -22,6 +23,7 @@ const Form = (props: Form) => {
         placeholder={props.placeholder}
         hasError={props.hasError}
         secureTextEntry={props.secureTextEntry}
+        autoCapitalize={props.autoCapitalize}
       />
       <FormView>{props.hasError && <FormCaption>{props.errorMessage}</FormCaption>}</FormView>
     </View>

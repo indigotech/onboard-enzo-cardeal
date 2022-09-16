@@ -9,18 +9,7 @@
  */
 
 import React, { useState } from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  Text,
-  useColorScheme,
-  View,
-  TextInput,
-  Button,
-  Alert,
-  ActivityIndicator,
-} from 'react-native';
+import { SafeAreaView, ScrollView, StatusBar, useColorScheme, View, Alert, ActivityIndicator } from 'react-native';
 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
@@ -29,13 +18,13 @@ import { useMutation } from '@apollo/client';
 import { storeAuthenticationToken } from '../utils/async-token-storage';
 import { LoginMutationDataResponse, ErrorResponse } from '../apollo/apollo-interfaces';
 import { emailPattern, passwordPattern } from '../utils/login-fields-regex-validation';
-import { commonStyles } from '../common/common-style';
 import { loginFieldsValidation } from '../utils/login-fields-validation';
 import { CommonSection } from '../common/common-dynamic-color-section';
 import { Navigation, NavigationComponentProps } from 'react-native-navigation';
 import { loginMutation } from '../apollo/mutations';
-import { ButtonContainer, ButtonText, Title } from '../styled-components';
+import { Title } from '../styled-components';
 import Form from '../components/form';
+import CustomButton from '../components/custom-button';
 
 const Login = (props: NavigationComponentProps) => {
   const [emailError, setEmailError] = useState(false);
@@ -79,12 +68,11 @@ const Login = (props: NavigationComponentProps) => {
     const isEmailValid = emailPattern.test(email);
     const isPasswordValid = passwordPattern.test(password);
     const areFieldsValid = loginFieldsValidation(isEmailValid, isPasswordValid);
+    setEmailError(!isEmailValid);
+    setPasswordError(!isPasswordValid);
     if (areFieldsValid) {
       await login(loginData);
     }
-
-    setEmailError(!isEmailValid);
-    setPasswordError(!isPasswordValid);
   };
 
   return (
@@ -103,6 +91,7 @@ const Login = (props: NavigationComponentProps) => {
             errorMessage='E-mail inválido'
             onChangeText={onChangeEmail}
             value={email}
+            autoCapitalize='none'
           />
           <Form
             title='Senha'
@@ -111,10 +100,9 @@ const Login = (props: NavigationComponentProps) => {
             onChangeText={onChangePassword}
             value={password}
             secureTextEntry={true}
+            autoCapitalize='none'
           />
-          <ButtonContainer activeOpacity={0.7} onPress={handleButtonPress}>
-            <ButtonText>Entrar</ButtonText>
-          </ButtonContainer>
+          <CustomButton title='Entrar' onPress={handleButtonPress} />
           {loading && <ActivityIndicator color={'#000000'} />}
         </View>
       </ScrollView>
