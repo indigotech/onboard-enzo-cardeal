@@ -1,6 +1,16 @@
 import React, { useRef, useState } from 'react';
 import { useQuery } from '@apollo/client';
-import { ActivityIndicator, Alert, FlatList, SafeAreaView, StatusBar, Text, useColorScheme, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Alert,
+  FlatList,
+  SafeAreaView,
+  StatusBar,
+  Text,
+  TouchableOpacity,
+  useColorScheme,
+  View,
+} from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { ErrorResponse, listUsersQuerry, QueryDataResponse } from '../apollo/apollo-model';
 import { UserItem } from './users-model';
@@ -41,11 +51,26 @@ const Users = (props: NavigationComponentProps) => {
   };
 
   const renderItem = ({ item }: { item: UserItem }) => {
+    const handleCellPress = () => {
+      Navigation.push(props.componentId, {
+        component: {
+          name: 'UserDetails',
+          options: {
+            topBar: {
+              title: {
+                text: 'Detalhes do usuário',
+              },
+            },
+          },
+        },
+      });
+    };
+
     return (
-      <View style={commonStyles.item} key={item.id}>
+      <TouchableOpacity style={commonStyles.item} activeOpacity={0.1} onPress={handleCellPress}>
         <Text>Usuário: {item.name}</Text>
         <Text>E-mail: {item.email}</Text>
-      </View>
+      </TouchableOpacity>
     );
   };
 

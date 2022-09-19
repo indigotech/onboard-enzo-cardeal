@@ -34,7 +34,7 @@ import { loginFieldsValidation } from '../utils/login-fields-validation';
 import { CommonSection } from '../common/common-dynamic-color-section';
 import { Navigation, NavigationComponentProps } from 'react-native-navigation';
 
-const App = (props: NavigationComponentProps) => {
+const Login = (props: NavigationComponentProps) => {
   const isDarkMode = useColorScheme() === 'dark';
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
@@ -106,4 +106,4 @@ const App = (props: NavigationComponentProps) => {
   );
 };
 
-export default App;
+export default Login;

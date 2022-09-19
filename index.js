@@ -5,20 +5,21 @@
 import { ApolloProvider } from '@apollo/client';
 import React from 'react';
 import { Navigation } from 'react-native-navigation';
-import App from './src/app/app.tsx';
+import Login from './src/login/login.tsx';
 import Users from './src/users/users.tsx';
+import AddUser from './src/add-user/add-user';
+import UserDetails from './src/user-details/user-details';
 import { apolloClient } from './src/apollo/apollo-client';
-import AddUser from './src/add-users/add-user';
 
 Navigation.registerComponent(
-  'Home',
+  'Login',
   () => (props) =>
     (
       <ApolloProvider client={apolloClient}>
-        <App {...props} />
+        <Login {...props} />
       </ApolloProvider>
     ),
-  () => App,
+  () => Login,
 );
 
 Navigation.registerComponent(
@@ -43,6 +44,17 @@ Navigation.registerComponent(
   () => AddUser,
 );
 
+Navigation.registerComponent(
+  'UserDetails',
+  () => (props) =>
+    (
+      <ApolloProvider client={apolloClient}>
+        <UserDetails {...props} />
+      </ApolloProvider>
+    ),
+  () => UserDetails,
+);
+
 Navigation.events().registerAppLaunchedListener(async () => {
   Navigation.setRoot({
     root: {
@@ -50,11 +62,11 @@ Navigation.events().registerAppLaunchedListener(async () => {
         children: [
           {
             component: {
-              name: 'Home',
+              name: 'Login',
               options: {
                 topBar: {
                   title: {
-                    text: 'Home',
+                    text: 'Login',
                   },
                 },
               },
