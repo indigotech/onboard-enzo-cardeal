@@ -12,11 +12,12 @@ import {
   View,
 } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-import { ErrorResponse, listUsersQuerry, QueryDataResponse } from '../apollo/apollo-model';
+import { ErrorResponse, UsersListQueryDataResponse } from '../apollo/apollo-interfaces';
 import { UserItem } from './users-model';
 import { commonStyles } from '../common/common-style';
 import { Navigation, NavigationComponentProps } from 'react-native-navigation';
 import Fab from '../common/fab';
+import { listUsersQuery } from '../apollo/queries';
 
 const Users = (props: NavigationComponentProps) => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -33,7 +34,7 @@ const Users = (props: NavigationComponentProps) => {
         limit: 30,
       },
     },
-    onCompleted: (response: QueryDataResponse) => {
+    onCompleted: (response: UsersListQueryDataResponse) => {
       setUsers([...users, ...response.users.nodes]);
       hasNextPage.current = response.users.pageInfo.hasNextPage;
     },
@@ -42,7 +43,7 @@ const Users = (props: NavigationComponentProps) => {
       Alert.alert('ERRO', errorMessage, [{ text: 'OK' }]);
     },
   };
-  const { loading } = useQuery(listUsersQuerry, listUsersData);
+  const { loading } = useQuery(listUsersQuery, listUsersData);
 
   const updateList = () => {
     if (hasNextPage.current) {
@@ -51,10 +52,13 @@ const Users = (props: NavigationComponentProps) => {
   };
 
   const renderItem = ({ item }: { item: UserItem }) => {
-    const handleCellPress = () => {
+    const handleCellPress = (id: string) => {
       Navigation.push(props.componentId, {
         component: {
           name: 'UserDetails',
+          passProps: {
+            userId: id,
+          },
           options: {
             topBar: {
               title: {
@@ -67,7 +71,7 @@ const Users = (props: NavigationComponentProps) => {
     };
 
     return (
-      <TouchableOpacity style={commonStyles.item} activeOpacity={0.1} onPress={handleCellPress}>
+      <TouchableOpacity style={commonStyles.item} activeOpacity={0.1} onPress={() => handleCellPress(item.id)}>
         <Text>Usuário: {item.name}</Text>
         <Text>E-mail: {item.email}</Text>
       </TouchableOpacity>
