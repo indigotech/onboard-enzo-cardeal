@@ -29,15 +29,19 @@ import { useMutation } from '@apollo/client';
 import { storeAuthenticationToken } from '../utils/async-token-storage';
 import { MutationDataResponse, ErrorResponse, loginMutation } from '../apollo/apollo-model';
 import { emailPattern, passwordPattern } from '../utils/login-fields-regex-validation';
-import { appStyles } from './app-styles';
+import { commonStyles } from '../common/common-style';
 import { loginFieldsValidation } from '../utils/login-fields-validation';
-import { AppSection } from './app-dynamic-color-section';
+import { CommonSection } from '../common/common-dynamic-color-section';
 import { Navigation, NavigationComponentProps } from 'react-native-navigation';
 
 const App = (props: NavigationComponentProps) => {
   const isDarkMode = useColorScheme() === 'dark';
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+  };
   const [email, onChangeEmail] = React.useState('');
   const [password, onChangePassword] = React.useState('');
+
   const loginData = {
     variables: {
       data: { email: email, password: password },
@@ -64,9 +68,6 @@ const App = (props: NavigationComponentProps) => {
     },
   };
   const [login, { loading }] = useMutation(loginMutation);
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
 
   const handleButtonPress = async () => {
     const isEmailValid = emailPattern.test(email);
@@ -87,11 +88,16 @@ const App = (props: NavigationComponentProps) => {
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}
         >
-          <AppSection title='Bem-vindo(a) à Taqtile!' />
+          <CommonSection title='Bem-vindo(a) à Taqtile!' />
           <Text>E-mail</Text>
-          <TextInput style={appStyles.input} onChangeText={onChangeEmail} value={email} />
+          <TextInput style={commonStyles.input} onChangeText={onChangeEmail} value={email} />
           <Text>Senha</Text>
-          <TextInput secureTextEntry={true} style={appStyles.input} onChangeText={onChangePassword} value={password} />
+          <TextInput
+            secureTextEntry={true}
+            style={commonStyles.input}
+            onChangeText={onChangePassword}
+            value={password}
+          />
           <Button title='Entrar' onPress={handleButtonPress} disabled={loading} />
           {loading && <ActivityIndicator color={'#000000'} />}
         </View>

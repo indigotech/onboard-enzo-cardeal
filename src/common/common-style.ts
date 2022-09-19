@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-export const appStyles = StyleSheet.create({
+export const commonStyles = StyleSheet.create({
   sectionContainer: {
     marginTop: 32,
     paddingHorizontal: 24,
@@ -22,5 +22,23 @@ export const appStyles = StyleSheet.create({
     margin: 12,
     borderWidth: 1,
     padding: 10,
+  },
+  floatingButtonStyle: {
+    resizeMode: 'contain',
+    width: 50,
+    height: 50,
+  },
+  touchableOpacityStyle: {
+    position: 'absolute',
+    width: 50,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    right: 30,
+    bottom: 30,
+  },
+  item: {
+    borderBottomColor: 'black',
+    borderBottomWidth: 0.5,
   },
 });

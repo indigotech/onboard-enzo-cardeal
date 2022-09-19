@@ -4,9 +4,11 @@ import { ActivityIndicator, Alert, FlatList, SafeAreaView, StatusBar, Text, useC
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { ErrorResponse, listUsersQuerry, QueryDataResponse } from '../apollo/apollo-model';
 import { UserItem } from './users-model';
-import { styles } from './users-style';
+import { commonStyles } from '../common/common-style';
+import { Navigation, NavigationComponentProps } from 'react-native-navigation';
+import Fab from '../common/fab';
 
-const Users = () => {
+const Users = (props: NavigationComponentProps) => {
   const isDarkMode = useColorScheme() === 'dark';
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
@@ -40,12 +42,28 @@ const Users = () => {
 
   const renderItem = ({ item }: { item: UserItem }) => {
     return (
-      <View style={styles.item} key={item.id}>
+      <View style={commonStyles.item} key={item.id}>
         <Text>Usuário: {item.name}</Text>
         <Text>E-mail: {item.email}</Text>
       </View>
     );
   };
+
+  const handleButtonPress = () => {
+    Navigation.push(props.componentId, {
+      component: {
+        name: 'AddUser',
+        options: {
+          topBar: {
+            title: {
+              text: 'Novo usuário',
+            },
+          },
+        },
+      },
+    });
+  };
+
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
@@ -54,7 +72,7 @@ const Users = () => {
           backgroundColor: isDarkMode ? Colors.black : Colors.white,
         }}
       >
-        <SafeAreaView style={styles.item}>
+        <SafeAreaView style={commonStyles.item}>
           <FlatList
             data={users}
             renderItem={renderItem}
@@ -63,6 +81,7 @@ const Users = () => {
             onEndReached={updateList}
             ListFooterComponent={loading ? <ActivityIndicator /> : null}
           />
+          <Fab onPress={handleButtonPress} />
         </SafeAreaView>
       </View>
     </SafeAreaView>
