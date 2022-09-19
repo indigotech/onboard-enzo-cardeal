@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 
-export interface MutationDataResponse {
+export interface LoginMutationDataResponse {
   login: {
     __typename: string;
     token: string;
@@ -8,6 +8,15 @@ export interface MutationDataResponse {
       __typename: string;
       id: string;
     };
+  };
+}
+
+export interface AddUserMutationDataResponse {
+  login: {
+    __typename: string;
+    id: string;
+    email: string;
+    role: string;
   };
 }
 
@@ -36,6 +45,16 @@ export const loginMutation = gql`
       user {
         id
       }
+    }
+  }
+`;
+
+export const createUserMutation = gql`
+  mutation CreateUser($data: UserInputType!) {
+    createUser(data: $data) {
+      id
+      email
+      role
     }
   }
 `;
