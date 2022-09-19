@@ -8,19 +8,8 @@
  * @format
  */
 
-import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  Text,
-  useColorScheme,
-  View,
-  TextInput,
-  Button,
-  Alert,
-  ActivityIndicator,
-} from 'react-native';
+import React, { useState } from 'react';
+import { SafeAreaView, ScrollView, StatusBar, useColorScheme, View, Alert, ActivityIndicator } from 'react-native';
 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
@@ -29,19 +18,23 @@ import { useMutation } from '@apollo/client';
 import { storeAuthenticationToken } from '../utils/async-token-storage';
 import { LoginMutationDataResponse, ErrorResponse } from '../apollo/apollo-interfaces';
 import { emailPattern, passwordPattern } from '../utils/login-fields-regex-validation';
-import { commonStyles } from '../common/common-style';
 import { loginFieldsValidation } from '../utils/login-fields-validation';
-import { CommonSection } from '../common/common-dynamic-color-section';
 import { Navigation, NavigationComponentProps } from 'react-native-navigation';
 import { loginMutation } from '../apollo/mutations';
+import { Title } from '../styled-components/styled-components';
+import FormTextField from '../components/form-text-field';
+import FormSubmitButton from '../components/form-submit-button';
 
 const Login = (props: NavigationComponentProps) => {
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+
   const isDarkMode = useColorScheme() === 'dark';
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
-  const [email, onChangeEmail] = React.useState('');
-  const [password, onChangePassword] = React.useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const loginData = {
     variables: {
@@ -74,7 +67,8 @@ const Login = (props: NavigationComponentProps) => {
     const isEmailValid = emailPattern.test(email);
     const isPasswordValid = passwordPattern.test(password);
     const areFieldsValid = loginFieldsValidation(isEmailValid, isPasswordValid);
-
+    setEmailError(!isEmailValid);
+    setPasswordError(!isPasswordValid);
     if (areFieldsValid) {
       await login(loginData);
     }
@@ -89,17 +83,25 @@ const Login = (props: NavigationComponentProps) => {
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}
         >
-          <CommonSection title='Bem-vindo(a) à Taqtile!' />
-          <Text>E-mail</Text>
-          <TextInput style={commonStyles.input} onChangeText={onChangeEmail} value={email} />
-          <Text>Senha</Text>
-          <TextInput
-            secureTextEntry={true}
-            style={commonStyles.input}
-            onChangeText={onChangePassword}
-            value={password}
+          <Title>Bem-vindo(a) à Taqtile</Title>
+          <FormTextField
+            title='E-mail'
+            hasError={emailError}
+            errorMessage='E-mail inválido'
+            onChangeText={setEmail}
+            value={email}
+            autoCapitalize='none'
           />
-          <Button title='Entrar' onPress={handleButtonPress} disabled={loading} />
+          <FormTextField
+            title='Senha'
+            hasError={passwordError}
+            errorMessage='Senha inválida'
+            onChangeText={setPassword}
+            value={password}
+            secureTextEntry={true}
+            autoCapitalize='none'
+          />
+          <FormSubmitButton title='Entrar' onPress={handleButtonPress} disabled={loading} />
           {loading && <ActivityIndicator color={'#000000'} />}
         </View>
       </ScrollView>

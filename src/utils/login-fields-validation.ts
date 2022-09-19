@@ -17,7 +17,7 @@ export const loginFieldsValidation = (isEmailValid: boolean, isPasswordValid: bo
   }
 
   if (!isEmailValid || !isPasswordValid) {
-    Alert.alert(alertTitle, alertDescription, [{ text: 'OK', onPress: () => console.log('OK Pressed') }]);
+    Alert.alert(alertTitle, alertDescription, [{ text: 'OK' }]);
   }
 
   return isEmailValid && isPasswordValid;
